@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.AspNetCore.Authorization;
+using System.Xml.Linq;
 
 namespace InventoryManagement.Controllers
 {
@@ -113,5 +114,115 @@ namespace InventoryManagement.Controllers
 
 			return View(model);
 		}
+
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> Edit(string id)
+		{
+			var user = await _userManager.FindByIdAsync(id);
+
+			if (user == null)
+			{
+				return NotFound();
+			}
+
+			var editViewModel = new EditAccountViewModel
+			{
+				Id = user.Id,
+				Name = user.Name,
+				Number = user.Number,
+				DateOfBirth = user.DateOfBirth,
+				Gender = user.Gender,
+				Education = user.Education,
+				Type = user.Type,
+				Biography = user.Biography
+			};
+
+			return View(editViewModel);
+		}
+
+		[HttpPost]
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> Edit(EditAccountViewModel model)
+		{
+			if (!ModelState.IsValid)
+			{
+				return View(model);
+			}
+
+			var user = await _userManager.FindByIdAsync(model.Id);
+
+			if (user == null)
+			{
+				return NotFound();
+			}
+
+			// Update user properties based on the changes in the model
+			user.Name = model.Name;
+			user.Number = model.Number;
+			user.DateOfBirth = model.DateOfBirth;
+			user.Gender = model.Gender;
+			user.Education = model.Education;
+			user.Type = model.Type;
+			user.Biography = model.Biography;
+			// Update other properties as needed
+
+			var result = await _userManager.UpdateAsync(user);
+
+			if (result.Succeeded)
+			{
+				// Redirect to user profile or another appropriate page
+				return RedirectToAction("Index", "Home");
+			}
+
+			foreach (var error in result.Errors)
+			{
+				ModelState.AddModelError("", error.Description);
+			}
+
+			return View(model);
+		}
+
+
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> Delete(string id)
+		{
+			var user = await _userManager.FindByIdAsync(id);
+
+			if (user == null)
+			{
+				return NotFound();
+			}
+
+			return View(user);
+		}
+
+		[HttpPost, ActionName("Delete")]
+		[Authorize(Roles = "Admin")]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> DeleteConfirmed(string id)
+		{
+			var user = await _userManager.FindByIdAsync(id);
+
+			if (user == null)
+			{
+				return NotFound();
+			}
+
+			var result = await _userManager.DeleteAsync(user);
+
+			if (result.Succeeded)
+			{
+				// Redirect to the user list or another appropriate page
+				return RedirectToAction("Index", "Home");
+			}
+
+			foreach (var error in result.Errors)
+			{
+				ModelState.AddModelError("", error.Description);
+			}
+
+			return View(user);
+		}
+
 	}
 }
