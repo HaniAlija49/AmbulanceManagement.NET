@@ -2,7 +2,7 @@
 
 namespace AmbulanceManagement.ViewModels
 {
-    public class Register
+    public class RegisterViewModel
     {
         [Required]
         public string Name { get; set; }
