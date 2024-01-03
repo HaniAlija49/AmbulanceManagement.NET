@@ -38,6 +38,48 @@
 					</div>
 				</div>
 				<div class="form-group row">
+					<label class="col-md-2" asp-for="Number"> </label>
+					<div class="col-md-10">
+						<input asp-for="Number" class="form-control" />
+						<span asp-validation-for="Number" class="text-danger"></span>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-md-2" asp-for="DateOfBirth"> </label>
+					<div class="col-md-10">
+						<input asp-for="DateOfBirth" class="form-control" />
+						<span asp-validation-for="DateOfBirth" class="text-danger"></span>
+					</div>
+				</div>
+					<div class="form-group">
+						<label asp-for="Gender"></label>
+						<select asp-for="Gender" asp-items="Html.GetEnumSelectList<AmbulanceManagement.Utility.Gender>()">
+							<option value="">Select Gender</option>
+						</select>
+					</div>
+				<div class="form-group row">
+					<label class="col-md-2" asp-for="Education"> </label>
+					<div class="col-md-10">
+						<input asp-for="Education" class="form-control" />
+						<span asp-validation-for="Education" class="text-danger"></span>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-md-2" asp-for="Type"> </label>
+					<div class="col-md-10">
+						<input asp-for="Type" class="form-control" />
+						<span asp-validation-for="Type" class="text-danger"></span>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-md-2" asp-for="Biography"> </label>
+					<div class="col-md-10">
+						<input asp-for="Biography" class="form-control" />
+						<span asp-validation-for="Biography" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="form-group row">
 					<label class="col-md-2" asp-for="RoleName"> </label>
 					<div class="col-md-10">
 						<select asp-for="RoleName" class="form-control" asp-items="@AmbulanceManagement.Utility.Helper.GetRolesForDropDown()"></select>

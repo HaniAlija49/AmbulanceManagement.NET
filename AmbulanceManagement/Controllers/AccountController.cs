@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore.Query.Internal;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InventoryManagement.Controllers
 {
@@ -35,6 +36,7 @@ namespace InventoryManagement.Controllers
 		}
 
 		[HttpPost]
+		
 		public async Task<IActionResult> Login([FromForm] LoginViewModel loginViewModel)
 		{
 			if (!ModelState.IsValid)
@@ -59,7 +61,7 @@ namespace InventoryManagement.Controllers
 			return RedirectToAction("Login", "Account");
 		}
 
-
+		[Authorize(Roles = "Admin")]
 		public IActionResult Register()
 		{
 			return View();
@@ -67,6 +69,7 @@ namespace InventoryManagement.Controllers
 
 
 		[HttpPost]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Register(RegisterViewModel model)
 		{
 			if (!ModelState.IsValid)
@@ -78,14 +81,21 @@ namespace InventoryManagement.Controllers
 			if (!_roleManager.RoleExistsAsync(Helper.Admin).GetAwaiter().GetResult())
 			{
 				await _roleManager.CreateAsync(new IdentityRole(Helper.Admin));
-				await _roleManager.CreateAsync(new IdentityRole(Helper.User));
+				await _roleManager.CreateAsync(new IdentityRole(Helper.Nurse));
+				await _roleManager.CreateAsync(new IdentityRole(Helper.Doctor));
 			}
 
 			var user = new ApplicationUser()
 			{
 				UserName = model.Email,
 				Email = model.Email,
-				Name = model.Name
+				Name = model.Name,
+				Number = model.Number,
+				DateOfBirth = model.DateOfBirth,
+				Gender = model.Gender,
+				Education = model.Education,
+				Type = model.Type,
+				Biography = model.Biography
 			};
 
 			var result = await _userManager.CreateAsync(user, model.Password);
