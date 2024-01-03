@@ -6,7 +6,7 @@ namespace AmbulanceManagement.ViewModels
 	{
 		[Required]
 		[EmailAddress]
-		string Email { get; set; }
+		public string Email { get; set; }
 		[Required]
 		[DataType(DataType.Password)]
 		public string Password { get; set; }
