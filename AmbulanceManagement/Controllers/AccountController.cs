@@ -31,37 +31,117 @@ namespace InventoryManagement.Controllers
 			_signInManager = signInManager;
 			_roleManager = roleManager;
 		}
-
-		public async Task<IActionResult> Login()
-		{
-            if (_dbContext.Users.Count() <= 0)
+        private void InitializeAdminUser()
+        {
+            //if (_dbContext.Users.Count() <= 3)
             {
-                var user = new ApplicationUser()
+                //            var user = new ApplicationUser()
+                //            {
+
+                //                UserName = "Admin",
+                //                Email = "admin@gmail.com",
+                //                Name = "Admin",
+                //                Number = 00,
+                //                DateOfBirth = new DateTime(2008, 3, 15),
+                //                Gender = Gender.Male,
+                //                Education = "Admin",
+                //                Type = "Admin",
+                //                Biography = "Admin"
+                //            };
+                //var password = "Hani123@";
+
+                //            var passwordValidator = _userManager.PasswordValidators.First();
+                //            var validationResult = await passwordValidator.ValidateAsync(_userManager, user, password);
+
+
+                //if (validationResult.Succeeded)
+                //{
+                //                if (!_roleManager.RoleExistsAsync(Helper.Admin).GetAwaiter().GetResult())
+                //                {
+                //                    await _roleManager.CreateAsync(new IdentityRole(Helper.Admin));
+                //                }
+                //                var result = await _userManager.CreateAsync(user, password);
+                //                await _userManager.AddToRoleAsync(user, Helper.Admin);
+                //                await _signInManager.SignInAsync(user, isPersistent: false);
+
+                //            }
+
+                //var user = new ApplicationUser()
+                //{
+                //    UserName = "Admini",
+                //    Email ="admin@gmail.com",
+                //    Name = "admin",
+                //    Number =00,
+                //    DateOfBirth = new DateTime(2003,06,01),
+                //    Gender = Gender.Male,
+                //    Education = "Admin",
+                //    Type = "Admin",
+                //    Biography = "Admin"
+                //};
+
+                //var result = await _userManager.CreateAsync(user, "Hani123@");
+
+                //if (result.Succeeded)
+                //{
+                //    await _userManager.AddToRoleAsync(user, Helper.Admin);
+                //    await _signInManager.SignInAsync(user, isPersistent: false);
+                //    return RedirectToAction("Index", "Home");
+                //}
+            }
+            _dbContext.Database.EnsureCreated();
+
+            if (!_dbContext.Users.Any())
+            {
+                var adminUser = new ApplicationUser
                 {
-                    UserName = "Admin",
-                    Email = "Admin@admin.com",
-                    Name = "Admin",
+                    UserName = "admin@gmail.com",
+                    Email = "admin@gmail.com",
+                    Name = "admin",
                     Number = 00,
-                    DateOfBirth = new DateTime(2008, 3, 15),
+                    DateOfBirth = new DateTime(2003, 06, 01),
                     Gender = Gender.Male,
                     Education = "Admin",
                     Type = "Admin",
                     Biography = "Admin"
                 };
-				var password = "Admin123@";
 
-                var passwordValidator = _userManager.PasswordValidators.First();
-                var validationResult = await passwordValidator.ValidateAsync(_userManager, user, "Admin123@");
+                var result = _userManager.CreateAsync(adminUser, "Admin123@").Result;
 
-
-                if (validationResult.Succeeded)
+                if (result.Succeeded)
                 {
-                    await _roleManager.CreateAsync(new IdentityRole(Helper.Admin));
-                    await _userManager.AddToRoleAsync(user, Helper.Admin);
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    var adminRole = "Admin";
+                    var roleExist = _roleManager.RoleExistsAsync(adminRole).Result;
 
+                    if (!roleExist)
+                    {
+                        var roleResult = _roleManager.CreateAsync(new IdentityRole(adminRole)).Result;
+                        if (!roleResult.Succeeded)
+                        {
+                            throw new Exception("Failed to create admin role.");
+                        }
+                    }
+
+                    var addToRoleResult = _userManager.AddToRoleAsync(adminUser, adminRole).Result;
+                    if (!addToRoleResult.Succeeded)
+                    {
+                        throw new Exception("Failed to add user to admin role.");
+                    }
+                }
+                else
+                {
+                    throw new Exception("Failed to create admin user.");
                 }
             }
+        }
+
+        public async Task<IActionResult> Login()
+		{
+			if (_signInManager.IsSignedIn(User))
+			{
+                return RedirectToAction("Index", "Home");
+            }
+            
+			InitializeAdminUser();
             return View();
 
 		}

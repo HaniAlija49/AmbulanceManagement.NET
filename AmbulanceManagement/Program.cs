@@ -35,4 +35,5 @@ app.MapControllerRoute(
 	name: "default",
 	pattern: "{controller=Welcome}/{action=Index}/{id?}");
 
+
 app.Run();
