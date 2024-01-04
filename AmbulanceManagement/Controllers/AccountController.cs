@@ -34,17 +34,8 @@ namespace InventoryManagement.Controllers
 
 		public IActionResult Login()
 		{
-			return View();
-		}
-
-		[HttpPost]
-		
-		public async Task<IActionResult> Login([FromForm] LoginViewModel loginViewModel)
-		{
-
-			//Creating First user Admin
-			if (_dbContext.Users.Count() > 0)
-			{
+            if (_dbContext.Users.Count() < 0)
+            {
                 var user = new ApplicationUser()
                 {
                     UserName = "Admin",
@@ -57,16 +48,28 @@ namespace InventoryManagement.Controllers
                     Type = "Admin",
                     Biography = "Admin"
                 };
+				var password = "Admin123@";
 
-                var res = await _userManager.CreateAsync(user, "Admin123@");
+                var res =  _userManager.CreateAsync(user, password);
 
-                if (res.Succeeded)
+                if (res.IsCompletedSuccessfully)
                 {
-                    await _userManager.AddToRoleAsync(user, Helper.Admin);
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                     _userManager.AddToRoleAsync(user, Helper.Admin);
+                     _signInManager.SignInAsync(user, isPersistent: false);
 
                 }
             }
+            return View();
+
+		}
+
+		[HttpPost]
+		
+		public async Task<IActionResult> Login([FromForm] LoginViewModel loginViewModel)
+		{
+
+			//Creating First user Admin
+
      
 
             if (!ModelState.IsValid)
