@@ -60,8 +60,16 @@
 
     <div class="form-group">
         <label asp-for="Type"></label>
-        <input asp-for="Type" class="form-control" value="@Model.Type" />
-        <span asp-validation-for="Type" class="text-danger"></span>
+        <select asp-for="Type" class="form-control">
+            <option value="Nurse" selected="@Model.Type == Type.Nurse">Nurse</option>
+            <option value="Cardiologist" selected="@Model.Type == Type.Cardiologist">Cardiologist</option>
+            <option value="Dermatologist" selected="@Model.Type == Type.Dermatologist">Dermatologist</option>
+            <option value="Radiologist" selected="@Model.Type == Type.Radiologist">Radiologist</option>
+            <option value="Gynecologist" selected="@Model.Type == Type.Gynecologist">Gynecologist</option>
+            <option value="Pulmonologist" selected="@Model.Type == Type.Pulmonologist">Pulmonologist</option>
+            <option value="Allergist" selected="@Model.Type == Type.Allergist">Allergist</option>
+        </select>
+        <span asp-validation-for="Gender" class="text-danger"></span>
     </div>
 
     <div class="form-group">
