@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.AspNetCore.Authorization;
 using System.Xml.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace InventoryManagement.Controllers
 {
@@ -40,7 +41,35 @@ namespace InventoryManagement.Controllers
 		
 		public async Task<IActionResult> Login([FromForm] LoginViewModel loginViewModel)
 		{
-			if (!ModelState.IsValid)
+
+			//Creating First user Admin
+			if (_dbContext.Users.Count() > 0)
+			{
+                var user = new ApplicationUser()
+                {
+                    UserName = "Admin",
+                    Email = "Admin@admin.com",
+                    Name = "Admin",
+                    Number = 00,
+                    DateOfBirth = new DateTime(2008, 3, 15),
+                    Gender = Gender.Male,
+                    Education = "Admin",
+                    Type = "Admin",
+                    Biography = "Admin"
+                };
+
+                var res = await _userManager.CreateAsync(user, "Admin123@");
+
+                if (res.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, Helper.Admin);
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+
+                }
+            }
+     
+
+            if (!ModelState.IsValid)
 				return View(loginViewModel);
 
 			var result = await _signInManager.PasswordSignInAsync(loginViewModel.Email, loginViewModel.Password, loginViewModel.RememberMe, false);
@@ -115,7 +144,14 @@ namespace InventoryManagement.Controllers
 			return View(model);
 		}
 
-		[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ListAll()
+        {
+            return _dbContext.Users != null ?
+                        View(await _dbContext.Users.ToListAsync()) :
+                        Problem("Entity set 'ApplicationDbContext.User'  is null.");
+        }
+
+        [Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Edit(string id)
 		{
 			var user = await _userManager.FindByIdAsync(id);
@@ -164,6 +200,16 @@ namespace InventoryManagement.Controllers
 			user.Education = model.Education;
 			user.Type = model.Type;
 			user.Biography = model.Biography;
+
+			//if(model.Password != "")
+			//{
+   //             user.PasswordHash = _userManager.PasswordHasher.HashPassword(user,model.Password);
+   //             var res = await _userManager.UpdateAsync(user);
+   //             if (!res.Succeeded)
+   //             {
+   //                 //throw exception......
+   //             }
+   //         }
 			// Update other properties as needed
 
 			var result = await _userManager.UpdateAsync(user);

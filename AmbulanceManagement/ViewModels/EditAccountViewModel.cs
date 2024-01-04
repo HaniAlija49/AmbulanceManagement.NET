@@ -11,6 +11,13 @@ namespace AmbulanceManagement.ViewModels
 			[Required(ErrorMessage = "Name is required.")]
 			public string Name { get; set; }
 
+			//public string Password { get; set; }
+
+			////[DataType(DataType.Password)]
+			////[Display(Name = "Password")]
+
+			////[Compare("Password", ErrorMessage = "Passwords do not match")]
+			////public string ConfirmPassword { get; set; }
 			public int Number { get; set; }
 
 			[DataType(DataType.Date)]

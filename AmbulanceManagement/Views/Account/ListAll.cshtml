@@ -1,0 +1,29 @@
+﻿@model IEnumerable<ApplicationUser>
+
+@if (Model != null)
+{
+    <h1>List of Users</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <!-- Add more fields as per your User model -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.Name</td>
+                    <!-- Add more fields as per your User model -->
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>There are no users to display.</p>
+}
