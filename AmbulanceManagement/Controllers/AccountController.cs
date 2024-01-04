@@ -32,9 +32,9 @@ namespace InventoryManagement.Controllers
 			_roleManager = roleManager;
 		}
 
-		public IActionResult Login()
+		public async Task<IActionResult> Login()
 		{
-            if (_dbContext.Users.Count() < 0)
+            if (_dbContext.Users.Count() <= 0)
             {
                 var user = new ApplicationUser()
                 {
@@ -50,12 +50,15 @@ namespace InventoryManagement.Controllers
                 };
 				var password = "Admin123@";
 
-                var res =  _userManager.CreateAsync(user, password);
+                var passwordValidator = _userManager.PasswordValidators.First();
+                var validationResult = await passwordValidator.ValidateAsync(_userManager, user, "Admin123@");
 
-                if (res.IsCompletedSuccessfully)
+
+                if (validationResult.Succeeded)
                 {
-                     _userManager.AddToRoleAsync(user, Helper.Admin);
-                     _signInManager.SignInAsync(user, isPersistent: false);
+                    await _roleManager.CreateAsync(new IdentityRole(Helper.Admin));
+                    await _userManager.AddToRoleAsync(user, Helper.Admin);
+                    await _signInManager.SignInAsync(user, isPersistent: false);
 
                 }
             }
@@ -273,5 +276,70 @@ namespace InventoryManagement.Controllers
 			return View(user);
 		}
 
-	}
+
+        public async Task<IActionResult> EditPassword(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+			var EditPassword = new ChangePasswordViewModel
+			{
+				Password = "",
+				ConfirmPassword = ""
+            };
+
+            return View(EditPassword);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> EditPassword(ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.FindByIdAsync(model.Id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+
+			if (model.Password != "")
+			{
+				user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, model.Password);
+				var res = await _userManager.UpdateAsync(user);
+				if (!res.Succeeded)
+				{
+					throw new Exception("Error");
+				}
+			}
+			// Update other properties as needed
+
+			var result = await _userManager.UpdateAsync(user);
+
+            if (result.Succeeded)
+            {
+                // Redirect to user profile or another appropriate page
+                return RedirectToAction("Index", "Home");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+
+            return View(model);
+        }
+
+
+
+    }
 }
