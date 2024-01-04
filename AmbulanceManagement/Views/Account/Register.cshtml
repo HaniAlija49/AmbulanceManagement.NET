@@ -64,12 +64,11 @@
 						<span asp-validation-for="Education" class="text-danger"></span>
 					</div>
 				</div>
-				<div class="form-group row">
-					<label class="col-md-2" asp-for="Type"> </label>
-					<div class="col-md-10">
-						<input asp-for="Type" class="form-control" />
-						<span asp-validation-for="Type" class="text-danger"></span>
-					</div>
+				<div class="form-group">
+					<label asp-for="Type"></label>
+					<select asp-for="Type" asp-items="Html.GetEnumSelectList<AmbulanceManagement.Utility.Specialization>()">
+						<option value="">Select Specialization</option>
+					</select>
 				</div>
 				<div class="form-group row">
 					<label class="col-md-2" asp-for="Biography"> </label>
