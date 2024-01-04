@@ -16,9 +16,10 @@
     <![endif]-->
 </head>
 <body>
+    @if (signInManager.IsSignedIn(User))
+    {
     <div class="main-wrapper">
-        @if (signInManager.IsSignedIn(User))
-        {
+        
             <div class="header">
                 <div class="header-left">
                     <a href="index-2.html" class="logo">
@@ -292,7 +293,7 @@
                     </div>
                 </div>
             </div>
-        }
+       
         
             <div class="page-wrapper">
                 <div class="content">
@@ -301,8 +302,16 @@
                        
             </div>
         </div>
-    </div>
+        </div>
+    }
+    else
+    {
+        <div class="content">
 
+            @RenderBody()
+
+        </div>
+    }
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
