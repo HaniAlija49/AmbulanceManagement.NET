@@ -1,49 +1,49 @@
 ﻿@model AmbulanceManagement.ViewModels.LoginViewModel
 
+@* @{
+    Layout = null;
+} *@
 <h2>Sign in</h2>
 <div class="row">
     <div class="col-md-8">
         <section id="loginForm">
-            <form id="account" method="post" asp-action="Login" asp-controller="Account">
+            <form action="http://dreamguys.co.in/preclinic/template/index.html" class="form-signin">
                 <h4>Use your email and password to login</h4>
                 <hr />
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group row">
-                    <label class="col-md-2 col-form-label" asp-for="Email">Email:</label>
+                <div class="form-group">
+                    <div class="account-logo">
+                        <a href="index-2.html"><img src="/img/logo-dark.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 col-form-label" for="Email">Username or Email</label>
                     <div class="col-md-10">
-                        <input asp-for="Email" class="form-control" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
+                        <input type="text" autofocus="" class="form-control">
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label class="col-md-2 col-form-label" asp-for="Password">Password:</label>
+                <div class="form-group">
+                    <label class="col-md-2 col-form-label" for="Password">Password</label>
                     <div class="col-md-10">
-                        <input asp-for="Password" class="form-control" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <input type="password" class="form-control">
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="form-group">
                     <div class="col-md-10 offset-md-2">
-                        <div class="form-check">
-                            <input class="form-check-input" asp-for="RememberMe" />
-                            <label class="form-check-label" asp-for="RememberMe">Remember me?</label>
-                        </div>
+                        <a href="forgot-password.html">Forgot your password?</a>
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="form-group">
                     <div class="col-md-10 offset-md-2">
-                        <button type="submit" class="btn btn-success">Log in</button>
+                        <button type="submit" class="btn btn-primary account-btn">Login</button>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <div class="col-md-10 offset-md-2">
-                        <a asp-action="Register">Sign up</a>
-                    </div>
-                </div>
+                
             </form>
         </section>
     </div>
 </div>
+
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
