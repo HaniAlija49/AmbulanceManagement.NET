@@ -22,9 +22,8 @@ namespace AmbulanceManagement.Controllers
         // GET: Appointments
         public async Task<IActionResult> Index()
         {
-              return _context.Appointment != null ? 
-                          View(await _context.Appointment.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Appointment'  is null.");
+            var applicationDbContext = _context.Appointment.Include(a => a.Doctor).Include(a => a.Patient);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Appointments/Details/5
@@ -36,6 +35,8 @@ namespace AmbulanceManagement.Controllers
             }
 
             var appointment = await _context.Appointment
+                .Include(a => a.Doctor)
+                .Include(a => a.Patient)
                 .FirstOrDefaultAsync(m => m.AppointmentId == id);
             if (appointment == null)
             {
@@ -48,6 +49,8 @@ namespace AmbulanceManagement.Controllers
         // GET: Appointments/Create
         public IActionResult Create()
         {
+            ViewData["DoctorId"] = new SelectList(_context.Users, "Id", "Name");
+            ViewData["PatientId"] = new SelectList(_context.Patient, "Id", "Name");
             return View();
         }
 
@@ -56,7 +59,7 @@ namespace AmbulanceManagement.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AppointmentId,PatientId,DoctorId,AppointmentDate,AppointmentHour,IsApproved")] Appointment appointment)
+        public async Task<IActionResult> Create([Bind("AppointmentId,PatientId,DoctorId,AppointmentHour,IsApproved")] Appointment appointment)
         {
             if (ModelState.IsValid)
             {
@@ -64,6 +67,8 @@ namespace AmbulanceManagement.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["DoctorId"] = new SelectList(_context.Users, "Id", "Id", appointment.DoctorId);
+            ViewData["PatientId"] = new SelectList(_context.Patient, "Id", "Adress", appointment.PatientId);
             return View(appointment);
         }
 
@@ -80,6 +85,8 @@ namespace AmbulanceManagement.Controllers
             {
                 return NotFound();
             }
+            ViewData["DoctorId"] = new SelectList(_context.Users, "Id", "Id", appointment.DoctorId);
+            ViewData["PatientId"] = new SelectList(_context.Patient, "Id", "Adress", appointment.PatientId);
             return View(appointment);
         }
 
@@ -88,7 +95,7 @@ namespace AmbulanceManagement.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AppointmentId,PatientId,DoctorId,AppointmentDate,AppointmentHour,IsApproved")] Appointment appointment)
+        public async Task<IActionResult> Edit(int id, [Bind("AppointmentId,PatientId,DoctorId,AppointmentHour,IsApproved")] Appointment appointment)
         {
             if (id != appointment.AppointmentId)
             {
@@ -115,6 +122,8 @@ namespace AmbulanceManagement.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["DoctorId"] = new SelectList(_context.Users, "Id", "Id", appointment.DoctorId);
+            ViewData["PatientId"] = new SelectList(_context.Patient, "Id", "Adress", appointment.PatientId);
             return View(appointment);
         }
 
@@ -127,6 +136,8 @@ namespace AmbulanceManagement.Controllers
             }
 
             var appointment = await _context.Appointment
+                .Include(a => a.Doctor)
+                .Include(a => a.Patient)
                 .FirstOrDefaultAsync(m => m.AppointmentId == id);
             if (appointment == null)
             {

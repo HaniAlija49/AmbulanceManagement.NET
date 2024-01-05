@@ -23,6 +23,6 @@ namespace AmbulanceManagement.Models
 		[StringLength (100)]
 		public string Adress { get; set; }
 
-        public virtual ICollection<Appointment> Appointments { get; set; }
+        public virtual ICollection<Appointment> ?Appointments { get; set; }
     }
 }
