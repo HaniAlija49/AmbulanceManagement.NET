@@ -59,7 +59,7 @@ namespace AmbulanceManagement.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AppointmentId,PatientId,DoctorId,AppointmentHour,IsApproved")] Appointment appointment)
+        public async Task<IActionResult> Create([Bind("AppointmentId,PatientId,DoctorId, AppointmentDate, AppointmentHour,IsApproved")] Appointment appointment)
         {
             if (ModelState.IsValid)
             {
@@ -67,8 +67,8 @@ namespace AmbulanceManagement.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DoctorId"] = new SelectList(_context.Users, "Id", "Id", appointment.DoctorId);
-            ViewData["PatientId"] = new SelectList(_context.Patient, "Id", "Adress", appointment.PatientId);
+            ViewData["DoctorId"] = new SelectList(_context.Users, "Id", "Name", appointment.DoctorId);
+            ViewData["PatientId"] = new SelectList(_context.Patient, "Id", "Name", appointment.PatientId);
             return View(appointment);
         }
 
@@ -85,8 +85,8 @@ namespace AmbulanceManagement.Controllers
             {
                 return NotFound();
             }
-            ViewData["DoctorId"] = new SelectList(_context.Users, "Id", "Id", appointment.DoctorId);
-            ViewData["PatientId"] = new SelectList(_context.Patient, "Id", "Adress", appointment.PatientId);
+            ViewData["DoctorId"] = new SelectList(_context.Users, "Id", "Name", appointment.DoctorId);
+            ViewData["PatientId"] = new SelectList(_context.Patient, "Id", "Name", appointment.PatientId);
             return View(appointment);
         }
 
@@ -95,7 +95,7 @@ namespace AmbulanceManagement.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AppointmentId,PatientId,DoctorId,AppointmentHour,IsApproved")] Appointment appointment)
+        public async Task<IActionResult> Edit(int id, [Bind("AppointmentId,PatientId,DoctorId,AppointmentDate, AppointmentHour,IsApproved")] Appointment appointment)
         {
             if (id != appointment.AppointmentId)
             {
@@ -122,8 +122,8 @@ namespace AmbulanceManagement.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DoctorId"] = new SelectList(_context.Users, "Id", "Id", appointment.DoctorId);
-            ViewData["PatientId"] = new SelectList(_context.Patient, "Id", "Adress", appointment.PatientId);
+            ViewData["DoctorId"] = new SelectList(_context.Users, "Id", "Name", appointment.DoctorId);
+            ViewData["PatientId"] = new SelectList(_context.Patient, "Id", "Name", appointment.PatientId);
             return View(appointment);
         }
 
