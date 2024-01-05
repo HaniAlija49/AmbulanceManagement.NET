@@ -18,5 +18,9 @@ namespace AmbulanceManagement.Models
 		public string Type { get; set; }
 		[AllowNull]
 		public string Biography { get; set; }
-	}
+
+        public virtual ICollection<Appointment> Appointments { get; set; }
+
+        public virtual ICollection<Report> Reports { get; set; }
+    }
 }

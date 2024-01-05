@@ -17,9 +17,12 @@ namespace AmbulanceManagement.Models
             
             public Hour AppointmentHour { get; set; }
             public bool IsApproved { get; set; }
-           
-            //public virtual Patient Patient { get; set; }
-           // public virtual Doctor Doctor { get; set; }
+
+            [ForeignKey("DoctorId")]
+            public virtual ApplicationUser Doctor { get; set; }
+            [ForeignKey("PatientId")]
+            public virtual Patient Patient { get; set; }
+            public virtual Report Report { get; set; }
 
     }
 }
