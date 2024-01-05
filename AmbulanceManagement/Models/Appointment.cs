@@ -23,7 +23,7 @@ namespace AmbulanceManagement.Models
             public virtual ApplicationUser? Doctor { get; set; }
             [ForeignKey("PatientId")]
             public virtual Patient? Patient { get; set; }
-            //public virtual Report? Report { get; set; }
+            public virtual Report? Report { get; set; }
 
     }
 }

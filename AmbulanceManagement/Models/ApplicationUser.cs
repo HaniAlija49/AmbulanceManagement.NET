@@ -21,6 +21,6 @@ namespace AmbulanceManagement.Models
 
         public virtual ICollection<Appointment> Appointments { get; set; }
 
-        //public virtual ICollection<Report> Reports { get; set; }
-    }
+		public virtual ICollection<Report> Reports { get; set; }
+	}
 }

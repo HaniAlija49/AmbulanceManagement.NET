@@ -9,16 +9,16 @@ namespace AmbulanceManagement.Models
     {
         [Key]
         public int ReportId { get; set; }
-        public int PatientId { get; set; }
+        public int AppointmentId { get; set; }
         public string? DoctorId { get; set; }
         public DateTime VisitDate { get; set; }
         public string? Symptoms { get; set; }
         public string? Diagnosis { get; set; }
 
-        //[ForeignKey("DoctorId")]
-        //public virtual ApplicationUser? Doctor { get; set; }
+        [ForeignKey("DoctorId")]
+        public virtual ApplicationUser? Doctor { get; set; }
 
-        //[ForeignKey("PatientId")]
-        //public virtual Patient? Patient { get; set; }
+        [ForeignKey("AppointmentId")]
+        public virtual Appointment? Appointment { get; set; }
     }
 }
