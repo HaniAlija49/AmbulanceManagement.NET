@@ -5,7 +5,7 @@
 	<div class="col-md-8">
 		<section id="loginForm">
 
-			<form id="account" method="post" asp-action="Register" asp-controller="Account">
+			<form id="account" method="post" asp-action="Register" asp-controller="Account" enctype="multipart/form-data">
 				<h4>Use your email and password to login</h4>
 				<hr />
 				<div asp-validation-summary="All" class="text-danger"></div>
@@ -76,6 +76,12 @@
 						<input asp-for="Biography" class="form-control" />
 						<span asp-validation-for="Biography" class="text-danger"></span>
 					</div>
+				</div>
+
+				<div class="form-group">
+					<label asp-for="ProfilePicture" class="control-label">Profile Picture:</label>
+					<input asp-for="ProfilePicture" type="file" class="form-control" />
+					<span asp-validation-for="ProfilePicture" class="text-danger"></span>
 				</div>
 
 				<div class="form-group row">

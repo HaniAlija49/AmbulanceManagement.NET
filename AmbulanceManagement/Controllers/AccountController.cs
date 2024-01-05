@@ -186,49 +186,65 @@ namespace InventoryManagement.Controllers
 
 		[HttpPost]
 		[Authorize(Roles = "Admin")]
-		public async Task<IActionResult> Register(RegisterViewModel model)
-		{
-			if (!ModelState.IsValid)
-			{
-				return View();
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
-			}
+            if (!_roleManager.RoleExistsAsync(Helper.Admin).Result)
+            {
+                await _roleManager.CreateAsync(new IdentityRole(Helper.Admin));
+                await _roleManager.CreateAsync(new IdentityRole(Helper.Nurse));
+                await _roleManager.CreateAsync(new IdentityRole(Helper.Doctor));
+            }
 
-			if (!_roleManager.RoleExistsAsync(Helper.Admin).GetAwaiter().GetResult())
-			{
-				await _roleManager.CreateAsync(new IdentityRole(Helper.Admin));
-				await _roleManager.CreateAsync(new IdentityRole(Helper.Nurse));
-				await _roleManager.CreateAsync(new IdentityRole(Helper.Doctor));
-			}
+            byte[] profilePictureData = null;
+            string profilePictureContentType = null;
 
-			var user = new ApplicationUser()
-			{
-				UserName = model.Email,
-				Email = model.Email,
-				Name = model.Name,
-				Number = model.Number,
-				DateOfBirth = model.DateOfBirth,
-				Gender = model.Gender,
-				Education = model.Education,
-				Type = model.Type,
-				Biography = model.Biography
-			};
+            if (model.ProfilePicture != null && model.ProfilePicture.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    model.ProfilePicture.CopyTo(memoryStream);
+                    profilePictureData = memoryStream.ToArray();
+                    profilePictureContentType = model.ProfilePicture.ContentType;
+                }
+            }
 
-			var result = await _userManager.CreateAsync(user, model.Password);
+            var user = new ApplicationUser
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                Name = model.Name,
+                Number = model.Number,
+                DateOfBirth = model.DateOfBirth,
+                Gender = model.Gender,
+                Education = model.Education,
+                Type = model.Type,
+                Biography = model.Biography,
+                ProfilePictureData = profilePictureData,
+                ProfilePictureContentType = profilePictureContentType
+            };
 
-			if (result.Succeeded)
-			{
-				await _userManager.AddToRoleAsync(user, model.RoleName);
-				await _signInManager.SignInAsync(user, isPersistent: false);
-				RedirectToAction("Index", "Home");
-			}
-			foreach (var error in result.Errors)
-			{
-				ModelState.AddModelError("", error.Description);
-			}
+            var result = await _userManager.CreateAsync(user, model.Password);
 
-			return View(model);
-		}
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, model.RoleName);
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                return RedirectToAction("Index", "Home");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+
+            return View(model);
+        }
+
 
         public async Task<IActionResult> ListAll()
         {

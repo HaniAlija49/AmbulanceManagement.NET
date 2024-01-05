@@ -19,6 +19,8 @@ namespace AmbulanceManagement.Models
 		[AllowNull]
 		public string Biography { get; set; }
 
+        public byte[] ProfilePictureData { get; set; } // Byte array to store image binary data
+        public string ProfilePictureContentType { get; set; } // MIME type of the image
         public virtual ICollection<Appointment> Appointments { get; set; }
 
 		public virtual ICollection<Report> Reports { get; set; }

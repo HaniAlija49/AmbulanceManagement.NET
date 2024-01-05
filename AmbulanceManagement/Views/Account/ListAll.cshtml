@@ -8,7 +8,7 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
-                <!-- Add more fields as per your User model -->
+                <th>Picture</th>
             </tr>
         </thead>
         <tbody>
@@ -17,7 +17,17 @@
                 <tr>
                     <td>@user.Id</td>
                     <td>@user.Name</td>
-                    <!-- Add more fields as per your User model -->
+                    <td>
+                        @if (user.ProfilePictureData != null)
+                        {
+                            
+                            <img src="data:@user.ProfilePictureContentType;base64,@Convert.ToBase64String(user.ProfilePictureData)" alt="Profile Picture" class="img-thumbnail" />
+                        }
+                        else
+                        {
+                            <p>No profile picture available.</p>
+                        }
+                    </td>
                 </tr>
             }
         </tbody>

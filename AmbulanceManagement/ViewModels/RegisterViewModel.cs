@@ -38,5 +38,9 @@ namespace AmbulanceManagement.ViewModels
 		public string Type { get; set; }
         [AllowNull]
 		public string ?Biography { get; set; }
-	}
+        [AllowNull]
+        [Display(Name = "Profile Picture")]
+        [DataType(DataType.Upload)]
+        public IFormFile ProfilePicture { get; set; }
+    }
 }
