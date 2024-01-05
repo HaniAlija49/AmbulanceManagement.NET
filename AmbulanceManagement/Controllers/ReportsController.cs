@@ -50,7 +50,7 @@ namespace AmbulanceManagement.Controllers
         public IActionResult Create()
         {
             ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentId");
-            ViewData["DoctorId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["DoctorId"] = new SelectList(_context.Users, "Id", "Name");
             return View();
         }
 

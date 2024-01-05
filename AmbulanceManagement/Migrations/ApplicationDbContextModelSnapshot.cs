@@ -146,7 +146,7 @@ namespace AmbulanceManagement.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("Appointment");
+                    b.ToTable("Appointment", (string)null);
                 });
 
             modelBuilder.Entity("AmbulanceManagement.Models.Patient", b =>
@@ -186,7 +186,7 @@ namespace AmbulanceManagement.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Patient");
+                    b.ToTable("Patient", (string)null);
                 });
 
             modelBuilder.Entity("AmbulanceManagement.Models.Report", b =>
@@ -219,7 +219,7 @@ namespace AmbulanceManagement.Migrations
 
                     b.HasIndex("DoctorId");
 
-                    b.ToTable("Report");
+                    b.ToTable("Report", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

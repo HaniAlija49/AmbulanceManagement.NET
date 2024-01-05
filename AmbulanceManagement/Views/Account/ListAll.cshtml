@@ -1,14 +1,22 @@
 ﻿@model IEnumerable<ApplicationUser>
 
-@if (Model != null)
+@if (Model != null && Model.Any())
 {
     <h1>List of Users</h1>
-    <table>
+    <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Name</th>
+                <th>Email</th>
+                <th>Number</th>
+                <th>Date of Birth</th>
+                <th>Gender</th>
+                <th>Education</th>
+                <th>Type</th>
+                <th>Biography</th>
                 <th>Picture</th>
+                <th>Actions</th> <!-- Added column for actions -->
             </tr>
         </thead>
         <tbody>
@@ -17,16 +25,30 @@
                 <tr>
                     <td>@user.Id</td>
                     <td>@user.Name</td>
+                    <td>@user.Email</td>
+                    <td>@user.Number</td>
+                    <td>@user.DateOfBirth.ToShortDateString()</td>
+                    <td>@user.Gender</td>
+                    <td>@user.Education</td>
+                    <td>@user.Type</td>
+                    <td>@user.Biography</td>
                     <td>
                         @if (user.ProfilePictureData != null)
                         {
-                            
-                            <img src="data:@user.ProfilePictureContentType;base64,@Convert.ToBase64String(user.ProfilePictureData)" alt="Profile Picture" class="img-thumbnail" />
+                            <img width="150" src="data:@user.ProfilePictureContentType;base64,@Convert.ToBase64String(user.ProfilePictureData)" alt="Profile Picture" class="img-thumbnail" />
                         }
                         else
                         {
                             <p>No profile picture available.</p>
                         }
+                    </td>
+                    <td>
+                        <!-- Action buttons -->
+                        <a asp-action="Edit" asp-route-id="@user.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@user.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@user.Id">Delete</a>
+                        <a asp-action="EditPassword" asp-route-id="@user.Id">Change Password</a>
+
                     </td>
                 </tr>
             }

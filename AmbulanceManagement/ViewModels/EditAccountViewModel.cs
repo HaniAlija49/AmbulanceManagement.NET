@@ -23,6 +23,8 @@ namespace AmbulanceManagement.ViewModels
 
 			[AllowNull]
 			public string? Biography { get; set; }
-		}
+			public IFormFile ProfilePicture { get; set; }
+        public bool ChangeProfilePicture { get; set; }
+    }
 
 	}

@@ -22,7 +22,7 @@
         
             <div class="header">
                 <div class="header-left">
-                    <a href="index-2.html" class="logo">
+                    <a asp-controller="Home" asp-action="Index"  class="logo">
                         <img src="/img/logo.png" width="35" height="35" alt=""> <span>Preclinic</span>
                     </a>
                 </div>
@@ -41,9 +41,9 @@
                             <span> @Context.User.Identity.Name</span>
                         </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="profile.html">My Profile</a>
-                            <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
-                            <a class="dropdown-item" href="settings.html">Settings</a>
+                            <a class="dropdown-item" asp-controller="Account" asp-action="Details" asp-route-id="@signInManager.UserManager.GetUserId(User)">My Profile</a>
+                            <a class="dropdown-item" asp-controller="Account" asp-action="Edit" asp-route-id="@signInManager.UserManager.GetUserId(User)">Edit Profile</a>
+                           
                             <form method="post" id="logoutForm" asp-controller="Account" asp-action="LogOff">
                                 <a role="button" class="dropdown-item" onclick="event.target.parentNode.submit();">Logout</a>
                             </form>

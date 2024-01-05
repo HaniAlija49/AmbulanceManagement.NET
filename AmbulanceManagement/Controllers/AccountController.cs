@@ -252,6 +252,22 @@ namespace InventoryManagement.Controllers
                         View(await _dbContext.Users.ToListAsync()) :
                         Problem("Entity set 'ApplicationDbContext.User'  is null.");
         }
+        public IActionResult Details(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = _dbContext.Users.FirstOrDefault(u => u.Id == id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
 
         [Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Edit(string id)
@@ -280,58 +296,62 @@ namespace InventoryManagement.Controllers
 
 		[HttpPost]
 		[Authorize(Roles = "Admin")]
-		public async Task<IActionResult> Edit(EditAccountViewModel model)
-		{
-			if (!ModelState.IsValid)
-			{
-				return View(model);
-			}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(EditAccountViewModel model, IFormFile profilePicture)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
-			var user = await _userManager.FindByIdAsync(model.Id);
+            var user = await _userManager.FindByIdAsync(model.Id);
 
-			if (user == null)
-			{
-				return NotFound();
-			}
+            if (user == null)
+            {
+                return NotFound();
+            }
 
-			// Update user properties based on the changes in the model
-			user.Name = model.Name;
-			user.Number = model.Number;
-			user.DateOfBirth = model.DateOfBirth;
-			user.Gender = model.Gender;
-			user.Education = model.Education;
-			user.Type = model.Type;
-			user.Biography = model.Biography;
+            // Update user properties based on the changes in the model
+            user.Name = model.Name;
+            user.Number = model.Number;
+            user.DateOfBirth = model.DateOfBirth;
+            user.Gender = model.Gender;
+            user.Education = model.Education;
+            user.Type = model.Type;
+            user.Biography = model.Biography;
 
-			//if(model.Password != "")
-			//{
-   //             user.PasswordHash = _userManager.PasswordHasher.HashPassword(user,model.Password);
-   //             var res = await _userManager.UpdateAsync(user);
-   //             if (!res.Succeeded)
-   //             {
-   //                 //throw exception......
-   //             }
-   //         }
-			// Update other properties as needed
+            // Handle profile picture update
+            if (profilePicture != null)
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    await profilePicture.CopyToAsync(ms);
+                    user.ProfilePictureData = ms.ToArray();
+                    user.ProfilePictureContentType = profilePicture.ContentType;
+                }
+            }
 
-			var result = await _userManager.UpdateAsync(user);
+            // Update other properties as needed
+            var result = await _userManager.UpdateAsync(user);
 
-			if (result.Succeeded)
-			{
-				// Redirect to user profile or another appropriate page
-				return RedirectToAction("Index", "Home");
-			}
+            if (result.Succeeded)
+            {
+                // Redirect to user profile or another appropriate page
+                return RedirectToAction("Index", "Home");
+            }
 
-			foreach (var error in result.Errors)
-			{
-				ModelState.AddModelError("", error.Description);
-			}
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
 
-			return View(model);
-		}
+            return View(model);
+        }
 
 
-		[Authorize(Roles = "Admin")]
+
+        [Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Delete(string id)
 		{
 			var user = await _userManager.FindByIdAsync(id);
