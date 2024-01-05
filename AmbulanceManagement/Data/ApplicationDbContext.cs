@@ -16,7 +16,7 @@ namespace AmbulanceManagement.Data
         }
 
         public DbSet<AmbulanceManagement.Models.Patient> Patient { get; set; } = default!;
-        public DbSet<AmbulanceManagement.Models.Report> Visit { get; set; } = default!;
+        public DbSet<AmbulanceManagement.Models.Report> Report { get; set; } = default!;
         public DbSet<AmbulanceManagement.Models.Appointment>? Appointment { get; set; }
     }
 }
