@@ -193,7 +193,7 @@ namespace InventoryManagement.Controllers
                 return View(model);
             }
 
-            if (!_roleManager.RoleExistsAsync(Helper.Admin).Result)
+            if (!_roleManager.RoleExistsAsync(Helper.Admin).Result || !_roleManager.RoleExistsAsync(Helper.Doctor).Result || !_roleManager.RoleExistsAsync(Helper.Nurse).Result)
             {
                 await _roleManager.CreateAsync(new IdentityRole(Helper.Admin));
                 await _roleManager.CreateAsync(new IdentityRole(Helper.Nurse));
