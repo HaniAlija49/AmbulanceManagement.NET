@@ -233,8 +233,8 @@ namespace InventoryManagement.Controllers
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, model.RoleName);
-                await _signInManager.SignInAsync(user, isPersistent: false);
-                return RedirectToAction("Index", "Home");
+                //await _signInManager.SignInAsync(user, isPersistent: false);
+                return RedirectToAction("ListAll", "Account");
             }
 
             foreach (var error in result.Errors)
@@ -338,7 +338,7 @@ namespace InventoryManagement.Controllers
             if (result.Succeeded)
             {
                 // Redirect to user profile or another appropriate page
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("ListAll", "Account");
             }
 
             foreach (var error in result.Errors)
@@ -381,7 +381,7 @@ namespace InventoryManagement.Controllers
 			if (result.Succeeded)
 			{
 				// Redirect to the user list or another appropriate page
-				return RedirectToAction("Index", "Home");
+				return RedirectToAction("ListAll", "Account");
 			}
 
 			foreach (var error in result.Errors)
@@ -443,9 +443,9 @@ namespace InventoryManagement.Controllers
 
             if (result.Succeeded)
             {
-                // Redirect to user profile or another appropriate page
-                return RedirectToAction("Index", "Home");
-            }
+				// Redirect to user profile or another appropriate page
+				return RedirectToAction("ListAll", "Account");
+			}
 
             foreach (var error in result.Errors)
             {
