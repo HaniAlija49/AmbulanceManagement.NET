@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<ApplicationUser>
+@inject Microsoft.AspNetCore.Identity.SignInManager<AmbulanceManagement.Models.ApplicationUser> signInManager
+@inject Microsoft.AspNetCore.Identity.UserManager<AmbulanceManagement.Models.ApplicationUser> userManager
 
 @if (Model != null && Model.Any())
 {
@@ -9,6 +11,7 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
+                <th>Role</th>
                 <th>Email</th>
                 <th>Number</th>
                 <th>Date of Birth</th>
@@ -26,6 +29,28 @@
                 <tr>
                     <td>@user.Id</td>
                     <td>@user.Name</td>
+                    <td>
+                        @if (userManager != null)
+                        {
+                            var roles = await userManager.GetRolesAsync(user);
+                            if (roles.Any())
+                            {
+                                
+                                @foreach (var role in roles)
+                                {
+                                    <li>@role</li>
+                                }
+                            }
+                            else
+                            {
+                                <p>No roles assigned.</p>
+                            }
+                        }
+                        else
+                        {
+                            <p>UserManager not available.</p>
+                        }
+                    </td>
                     <td>@user.Email</td>
                     <td>@user.Number</td>
                     <td>@user.DateOfBirth.ToShortDateString()</td>
