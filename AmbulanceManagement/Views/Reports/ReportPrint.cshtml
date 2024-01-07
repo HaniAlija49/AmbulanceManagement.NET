@@ -1,0 +1,73 @@
+﻿@model AmbulanceManagement.Models.Report
+
+@{
+    Layout = null; // No need for layout in the printable version
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Printable Report</title>
+    <!-- Include your CSS styles for the printable version -->
+
+    <!-- Bootstrap CSS (Assuming Bootstrap is included in your project) -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/print.css"
+</head>
+<body>
+    <div class="container">
+        <!-- Clinic Logo and Other Clinic Data -->
+        <div class="row mb-4">
+            <div class="col-md-12 text-center">
+                <img src="path/to/your/logo.png" alt="Clinic Logo" class="img-fluid" style="max-width: 150px;" />
+                <h2 class="mt-3">Your Clinic Name</h2>
+                <p>Address: Your Clinic Address</p>
+                <p>Contact: Your Clinic Contact Information</p>
+            </div>
+        </div>
+
+        <!-- Report Details -->
+        <h4 class="mt-4">Report Details</h4>
+
+        <div class="row">
+            <div class="col-md-3 font-weight-bold">Visit Date:</div>
+            <div class="col-md-9">@Html.DisplayFor(model => model.VisitDate)</div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-md-3 font-weight-bold">Patient Name:</div>
+            <div class="col-md-9">@ViewBag.PatientName</div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-md-3 font-weight-bold">Doctor:</div>
+            <div class="col-md-9">@Html.DisplayFor(model => model.Doctor.Name)</div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-md-3 font-weight-bold">Symptoms:</div>
+            <div class="col-md-9">@Html.DisplayFor(model => model.Symptoms)</div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-md-3 font-weight-bold">Diagnosis:</div>
+            <div class="col-md-9">@Html.DisplayFor(model => model.Diagnosis)</div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-md-3 font-weight-bold">Appointment ID:</div>
+            <div class="col-md-9">@Html.DisplayFor(model => model.Appointment.AppointmentId)</div>
+        </div>
+        <div class="footer">
+            <p>Thank you for choosing our clinic for your healthcare needs.</p>
+            <p>&copy; 2024 Your Clinic Name. All rights reserved.</p>
+        </div>
+        <!-- Print Button -->
+        <div class="text-right mt-4">
+            <a href="javascript:window.print()"><i class="fa fa-print"></i> Print</a>
+        </div>
+    </div>
+</body>
+</html>

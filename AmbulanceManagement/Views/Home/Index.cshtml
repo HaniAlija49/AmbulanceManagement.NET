@@ -76,7 +76,8 @@
                                             <td class="text-right">
                                                 @if (!appointment.IsApproved)
                                                 {
-                                                    <form asp-controller="Appointments" asp-action="ApproveAppointment" asp-route-appointmentId="@appointment.AppointmentId" method="post">
+                                                    <form asp-controller="Appointments" asp-action="ToggleApproval" asp-route-id="@appointment.AppointmentId" method="post">
+                                                        <input type="hidden" name="approve" value="true" />
                                                         <button type="submit" class="btn btn-outline-primary take-btn">Take up</button>
                                                     </form>
                                                 }

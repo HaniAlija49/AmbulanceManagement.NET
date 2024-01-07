@@ -176,9 +176,9 @@ namespace AmbulanceManagement.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ApproveAppointment(int appointmentId)
+        public async Task<IActionResult> ToggleApproval(int id, bool approve)
         {
-            var appointment = await _context.Appointment.FindAsync(appointmentId);
+            var appointment = await _context.Appointment.FindAsync(id);
             string referringUrl = _httpContextAccessor.HttpContext.Request.Headers["Referer"].ToString();
 
             if (appointment == null)
@@ -186,7 +186,7 @@ namespace AmbulanceManagement.Controllers
                 return NotFound(); // Or handle the case where the appointment isn't found
             }
 
-            appointment.IsApproved = true;
+            appointment.IsApproved = approve;
 
             try
             {
@@ -194,10 +194,12 @@ namespace AmbulanceManagement.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                throw;
+                return BadRequest(); // Handle the concurrency exception
             }
 
-            return Redirect(referringUrl); // Redirect to appropriate action
+            
+            return Redirect(referringUrl); // Redirect to appropriate action // Redirect to the appropriate action
         }
+
     }
 }

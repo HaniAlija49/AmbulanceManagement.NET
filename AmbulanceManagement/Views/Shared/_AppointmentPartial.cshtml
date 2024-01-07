@@ -21,7 +21,8 @@
                 <select asp-for="Hour" class="form-control" asp-items="Html.GetEnumSelectList<AmbulanceManagement.Utility.Hour>()"></select>
             </div>
             <div class="col-md-4 form-group mt-3">
-                <input asp-for="Date" name="date" class="form-control datepicker" id="date" placeholder="Appointment Date" required>
+                <input asp-for="Date" name="date" class="form-control datepicker" id="appointmentDate" placeholder="Appointment Date" required
+                       data-date-format="yyyy-mm-dd">
             </div>
 
             <div class="col-md-4 form-group mt-3">
@@ -40,5 +41,4 @@
         </div>
         <div class="text-center "><button class="appointment-btn " type="submit">Make an Appointment</button></div>
     </form>
-
 </div>

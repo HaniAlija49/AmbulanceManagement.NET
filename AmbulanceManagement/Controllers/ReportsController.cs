@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AmbulanceManagement.Data;
 using AmbulanceManagement.Models;
+using AmbulanceManagement.Migrations;
 
 namespace AmbulanceManagement.Controllers
 {
@@ -38,6 +39,12 @@ namespace AmbulanceManagement.Controllers
                 .Include(r => r.Appointment)
                 .Include(r => r.Doctor)
                 .FirstOrDefaultAsync(m => m.ReportId == id);
+
+           var patient = _context.Patient.FirstOrDefault(p => p.Id == report.Appointment.PatientId);
+
+
+            ViewBag.PatientName = patient.Name;
+
             if (report == null)
             {
                 return NotFound();
@@ -169,6 +176,18 @@ namespace AmbulanceManagement.Controllers
         private bool ReportExists(int id)
         {
           return (_context.Report?.Any(e => e.ReportId == id)).GetValueOrDefault();
+        }
+        public async Task<ActionResult> Print(int? id)
+        {
+            // Fetch the report data and pass it to the printable view
+            var report = await  _context.Report
+               .Include(r => r.Appointment)
+               .Include(r => r.Doctor)
+               .FirstOrDefaultAsync(m => m.ReportId == id);
+            var patient = _context.Patient.FirstOrDefault(p => p.Id == report.Appointment.PatientId);
+            ViewBag.PatientName = patient.Name;
+            
+            return View("ReportPrint", report);
         }
     }
 }

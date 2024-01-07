@@ -1,48 +1,51 @@
 ﻿@model AmbulanceManagement.Models.Appointment
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Appointment Details";
 }
 
-<h1>Details</h1>
+<div class="content">
+    <div class="row">
+        <div class="col-sm-8">
+            <h4 class="page-title">Appointment Details</h4>
+        </div>
+        <div class="col-sm-4 text-right">
+            <a asp-action="Edit" asp-route-id="@Model?.AppointmentId" class="btn btn-primary btn-rounded"><i class="fa fa-pencil"></i> Edit Appointment</a>
+        </div>
+    </div>
 
-<div>
-    <h4>Appointment</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AppointmentDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AppointmentDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AppointmentHour)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AppointmentHour)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsApproved)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsApproved)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Doctor)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Doctor.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Patient)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Patient.Id)
-        </dd>
+    <dl class="card-box">
+        <div class="row">
+            <div class="col-md-6">
+                <dt>Doctor:</dt>
+                <dd>@Model.Doctor.Name</dd>
+
+                <dt>Patient:</dt>
+                <dd>@Model.Patient.Name</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Date:</dt>
+                <dd>@Model.AppointmentDate.ToShortDateString()</dd>
+
+                <dt>Time:</dt>
+                <dd>@Model.AppointmentHour</dd>
+
+                <dt>Status:</dt>
+                <dd>
+                    @if (Model.IsApproved)
+                    {
+                        <span class="badge badge-success">Approved</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-warning">Pending Approval</span>
+                    }
+                </dd>
+            </div>
+        </div>
     </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.AppointmentId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+    <div class="text-right mt-3">
+        <a asp-action="Index" class="btn btn-secondary btn-rounded"><i class="fa fa-arrow-left"></i> Back to Appointment List</a>
+    </div>
 </div>

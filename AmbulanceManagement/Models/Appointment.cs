@@ -12,8 +12,8 @@ namespace AmbulanceManagement.Models
             public int AppointmentId { get; set; }
             public int? PatientId { get; set; }
             public string? DoctorId { get; set; }
+
             [DataType(DataType.Date)]
-            [NotMapped]
             public DateTime AppointmentDate { get; set; } 
             
             public Hour AppointmentHour { get; set; }
