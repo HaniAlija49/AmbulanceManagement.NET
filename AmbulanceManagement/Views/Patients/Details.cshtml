@@ -2,53 +2,98 @@
 
 @{
     ViewData["Title"] = "Details";
+    var reports = ViewData["Reports"] as List<Report>;
 }
 
 <h1>Details</h1>
 
-<div>
-    <h4>Patient</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EmailAddress)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EmailAddress)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Age)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Age)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Adress)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Adress)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="content">
+    <div class="row">
+        <div class="col-sm-7 col-6">
+            <h4 class="page-title">Patient Details</h4>
+        </div>
+        <div class="col-sm-5 col-6 text-right m-b-30">
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary btn-rounded"><i class="fa fa-pencil"></i> Edit Patient</a>
+        </div>
+    </div>
+
+    <div class="card-box profile-header">
+        <div class="row">
+            <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-5">
+                        <div class="profile-info-left h-100 ">
+                                    <h3 class="user-name m-t-0 mb-0">@Model.Name @Model.LastName</h3>
+                                    <small class="text-muted">Patient</small>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <ul class="personal-info">
+                                    <li>
+                                        <span class="title">Phone:</span>
+                                        <span class="text">@Model.PhoneNumber</span>
+                                    </li>
+                                    <li>
+                                        <span class="title">Email:</span>
+                                        <span class="text">@Model.EmailAddress</span>
+                                    </li>
+                                    <li>
+                                        <span class="title">Age:</span>
+                                        <span class="text">@Model.Age</span>
+                                    </li>
+                                    <li>
+                                        <span class="title">Address:</span>
+                                        <span class="text">@Model.Adress</span>
+                                    </li>
+                                </ul>
+                            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="profile-tabs">
+        <ul class="nav nav-tabs nav-tabs-bottom">
+            <li class="nav-item"><a class="nav-link active" href="#about-cont" data-toggle="tab">Reports</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane show active" id="about-cont">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card-box">
+                            <h3 class="card-title">Medical Reports</h3>
+                            <div class="experience-box">
+                                <table class="table table-border table-striped custom-table datatable mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Visit Date</th>
+                                            <th>Doctor</th>
+                                            <th>Symptoms</th>
+                                            <th>Diagnosis</th>
+                                            <!-- Add other report fields as needed -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (reports != null)
+                                        {
+                                            foreach (var report in reports)
+                                            {
+                                                <tr>
+                                                    <td><a asp-action="Details" asp-controller="Reports" asp-route-id="@report.ReportId">@report.VisitDate.ToString("yyyy-MM-dd")</a></td>
+                                                    <td>@report.Doctor.Name</td>
+                                                    <td>@report.Symptoms</td>
+                                                    <td>@report.Diagnosis</td>
+                                                    <!-- Add more report fields as needed -->
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

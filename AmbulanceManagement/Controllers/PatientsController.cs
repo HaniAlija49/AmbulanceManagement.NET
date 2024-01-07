@@ -20,12 +20,26 @@ namespace AmbulanceManagement.Controllers
         }
 
         // GET: Patients
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchQuery)
         {
-              return _context.Patient != null ? 
-                          View(await _context.Patient.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Patient'  is null.");
+            IQueryable<Patient> patientsQuery = _context.Patient;
+
+            if (!string.IsNullOrWhiteSpace(searchQuery))
+            {
+                patientsQuery = patientsQuery.Where(p =>
+                    p.Name.Contains(searchQuery) ||
+                    p.LastName.Contains(searchQuery) ||
+                    p.Adress.Contains(searchQuery) ||
+                    p.PhoneNumber.Contains(searchQuery) ||
+                    p.EmailAddress.Contains(searchQuery)
+                );
+            }
+
+            var patients = await patientsQuery.ToListAsync();
+
+            return View(patients);
         }
+
 
         // GET: Patients/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -35,12 +49,17 @@ namespace AmbulanceManagement.Controllers
                 return NotFound();
             }
 
+           
             var patient = await _context.Patient
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (patient == null)
             {
                 return NotFound();
             }
+
+            var reports = _context.Report.Where(r => r.Appointment.PatientId == patient.Id).ToList();
+
+            ViewData["Reports"] = reports;
 
             return View(patient);
         }

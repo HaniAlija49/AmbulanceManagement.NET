@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-
+using System.Net.Mail;
 
 namespace AmbulanceManagement.Controllers
 {
@@ -76,5 +76,6 @@ namespace AmbulanceManagement.Controllers
                 return RedirectToAction("Index", "Welcome");
             }
         }
+
     }
 }

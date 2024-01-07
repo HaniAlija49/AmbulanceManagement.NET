@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AmbulanceManagement.Data;
 using AmbulanceManagement.Models;
+using Microsoft.AspNetCore.Http;
+
 
 namespace AmbulanceManagement.Controllers
 {
     public class AppointmentsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AppointmentsController(ApplicationDbContext context)
+        public AppointmentsController(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         // GET: Appointments
@@ -169,6 +173,31 @@ namespace AmbulanceManagement.Controllers
         private bool AppointmentExists(int id)
         {
           return (_context.Appointment?.Any(e => e.AppointmentId == id)).GetValueOrDefault();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ApproveAppointment(int appointmentId)
+        {
+            var appointment = await _context.Appointment.FindAsync(appointmentId);
+            string referringUrl = _httpContextAccessor.HttpContext.Request.Headers["Referer"].ToString();
+
+            if (appointment == null)
+            {
+                return NotFound(); // Or handle the case where the appointment isn't found
+            }
+
+            appointment.IsApproved = true;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw;
+            }
+
+            return Redirect(referringUrl); // Redirect to appropriate action
         }
     }
 }

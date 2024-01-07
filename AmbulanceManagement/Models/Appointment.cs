@@ -17,7 +17,7 @@ namespace AmbulanceManagement.Models
             public DateTime AppointmentDate { get; set; } 
             
             public Hour AppointmentHour { get; set; }
-            public bool ?IsApproved { get; set; }
+            public bool IsApproved { get; set; }
 
             [ForeignKey("DoctorId")]
             public virtual ApplicationUser? Doctor { get; set; }

@@ -1,85 +1,181 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var doctors = ViewData["DoctorData"] as List<ApplicationUser>;
+    var appointments = ViewData["AppointmentsData"] as List<Appointment>;
+    var patients = ViewData["PatientData"] as List<Patient>;
+}
+
+<!DOCTYPE html>
 <html lang="en">
 
 <body>
-                <div class="row">
-                    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+    <div class="row">
+                    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
                         <div class="dash-widget">
                             <span class="dash-widget-bg1"><i class="fa fa-stethoscope" aria-hidden="true"></i></span>
                             <div class="dash-widget-info text-right">
-                                <h3>98</h3>
+                    <h3>@doctors.Count()</h3>
                                 <span class="widget-title1">Doctors <i class="fa fa-check" aria-hidden="true"></i></span>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
                         <div class="dash-widget">
                             <span class="dash-widget-bg2"><i class="fa fa-user-o"></i></span>
                             <div class="dash-widget-info text-right">
-                                <h3>1072</h3>
+                    <h3> @patients.Count()</h3>
                                 <span class="widget-title2">Patients <i class="fa fa-check" aria-hidden="true"></i></span>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
                         <div class="dash-widget">
                             <span class="dash-widget-bg3"><i class="fa fa-user-md" aria-hidden="true"></i></span>
                             <div class="dash-widget-info text-right">
-                                <h3>72</h3>
-                                <span class="widget-title3">Attend <i class="fa fa-check" aria-hidden="true"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
-                        <div class="dash-widget">
-                            <span class="dash-widget-bg4"><i class="fa fa-heartbeat" aria-hidden="true"></i></span>
-                            <div class="dash-widget-info text-right">
-                                <h3>618</h3>
-                                <span class="widget-title4">Pending <i class="fa fa-check" aria-hidden="true"></i></span>
+                    <h3> @appointments.Count()</h3>
+                                <span class="widget-title3">Appointments <i class="fa fa-check" aria-hidden="true"></i></span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                  
-                  
+    <div class="row">
+        <div class="col-12 col-md-6 col-lg-8 col-xl-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title d-inline-block">Upcoming Appointments</h4> <a asp-action="Index" asp-controller="Appointments" class="btn btn-primary float-right">View all</a>
                 </div>
-                <div class="row">
-                    <div class="col-12 col-md-6 col-lg-8 col-xl-8">
-                     <div class="card">
-                          <div class="card-header">
-                              <h4 class="card-title d-inline-block">Doctors</h4> <a href="doctors.html" class="btn btn-primary float-right">View all</a>
-                            </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table mb-0">
+                            <thead class="d-none">
+                                <tr>
+                                    <th>Patient Name</th>
+                                    <th>Doctor Name</th>
+                                    <th>Timing</th>
+                                    <th class="text-right">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (appointments != null)
+                                {
+                                    var displayAppointments = appointments.Take(10);
+                                    @foreach (var appointment in displayAppointments)
+                                    {
+                                        <tr>
+                                            <td style="min-width: 200px;">
+                                                <a class="avatar" href="profile.html">@appointment.Patient.Name</a>
+                                                <h2><a href="profile.html">@appointment.Patient.Name </a></h2>
+                                            </td>
+                                            <td>
+                                                <h5 class="time-title p-0">Appointment With</h5>
+                                                <p>@appointment.Doctor?.Name</p>
+                                            </td>
+                                            <td>
+                                                <h5 class="time-title p-0">Timing</h5>
+                                                <p>@appointment.AppointmentHour</p>
+                                            </td>
+                                            <td class="text-right">
+                                                @if (!appointment.IsApproved)
+                                                {
+                                                    <form asp-controller="Appointments" asp-action="ApproveAppointment" asp-route-appointmentId="@appointment.AppointmentId" method="post">
+                                                        <button type="submit" class="btn btn-outline-primary take-btn">Take up</button>
+                                                    </form>
+                                                }
+                                                else
+                                                {
+                                                    <button disabled class="btn btn-outline-success take-btn">Already Approved</button>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
 
-                        </div>
-                     </div>
-
-                 </div>
-                <div class="row">
-                    <div class="col-12 col-md-6 col-lg-8 col-xl-8">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title d-inline-block">Appointments</h4> <a href="appointments.html" class="btn btn-primary float-right">View all</a>
-                            </div>
-                          
-                        </div>
+                            </tbody>
+                        </table>
                     </div>
-                   
-                </div>
-               
-                </div>
-                <div class="row">
-                    <div class="col-12 col-md-6 col-lg-8 col-xl-8">
-                        <div class="card">
-                         <div class="card-header">
-                             <h4 class="card-title d-inline-block">Reports</h4> <a href="#" class="btn btn-primary float-right">View all</a>
-                            </div>
-
-                        </div>
-                    </div>
-
                 </div>
             </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 col-xl-4">
+            <div class="card member-panel">
+                <div class="card-header bg-white">
+                    <h4 class="card-title mb-0">Doctors</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="contact-list">
+                        @if (doctors != null)
+                        {
+                            var displayDoctors = doctors.Take(10);
+                            @foreach (var doctor in displayDoctors)
+                            {
+                                <li>
+                                    <div class="contact-cont">
+                                        <div class="float-left user-img m-r-10">
+                                            <a href="profile.html" title="@doctor.Name">
+                                                @if (doctor.ProfilePictureData != null && doctor.ProfilePictureContentType != null)
+                                                {
+                                                    <img src="data:@doctor.ProfilePictureContentType;base64,@Convert.ToBase64String(doctor.ProfilePictureData)" alt="Profile Picture" class="w-40 rounded-circle">
+                                                }
+                                                else
+                                                {
+                                                    <img src="assets/img/user.jpg" alt="Default Profile" class="w-40 rounded-circle">
+                                                }
+                                                <span class="status online"></span>
+                                            </a>
+                                        </div>
+                                        <div class="contact-info">
+                                            <span class="contact-name text-ellipsis">@doctor.Name</span>
+                                            <span class="contact-date">@doctor.Education, @doctor.Type</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+                <div class="card-footer text-center bg-white">
+                    <a asp-action="ListAll" asp-controller="Account" class="text-muted">View all Doctors</a>
+                </div>
+            </div>
+        </div>
+    </div>
+              
+                <div class="row">
+                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title d-inline-block">New Patients </h4> <a asp-action="Index" asp-controller="Patients"  class="btn btn-primary float-right">View all</a>
+                </div>
+                <div class="card-block">
+                    <div class="table-responsive">
+                        <table class="table mb-0 new-patient-table">
+                            <tbody>
+                                @if (patients != null)
+                                {
+                                    foreach (var patient in patients.Take(10)) // Limiting to the first 10 patients
+                                    {
+                                        <tr>
+                                            <td>
+                                                <h2>@(patient.Name) @(patient.LastName)</h2>
+                                            </td>
+                                            <td>@patient.EmailAddress</td>
+                                            <td>@patient.PhoneNumber</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="4">No patient data found.</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+                    </div>
+
+                </div>
            
  
 </body>
