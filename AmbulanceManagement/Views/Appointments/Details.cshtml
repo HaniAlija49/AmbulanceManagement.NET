@@ -47,6 +47,6 @@
 
     <div class="text-right mt-3">
         <a asp-action="Index" class="btn btn-secondary btn-rounded"><i class="fa fa-arrow-left"></i> Back to Appointment List</a>
-        <a asp-action="CreateId" asp-controller="Reports" asp-route-id="@Model.AppointmentId" class="btn btn-primary btn-rounded"><i class="fa fa-pencil"></i> Edit Patient</a>
+        <a asp-action="CreateWithId" asp-controller="Reports" asp-route-appointmentId="@Model.AppointmentId" asp-route-doctorId="@Model.DoctorId" asp-route-date="@Model.AppointmentDate" class="btn btn-primary btn-rounded"><i class="fa fa-pencil"></i>Create Report</a>
     </div>
 </div>

@@ -11,10 +11,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Printable Report</title>
     <!-- Include your CSS styles for the printable version -->
-
     <!-- Bootstrap CSS (Assuming Bootstrap is included in your project) -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/print.css"
+    <link rel="stylesheet" href="/css/print.css"> <!-- Add your custom print styles -->
+    <style>
+        /* Additional custom styles can be added here */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.8em;
+        }
+
+        .report-details {
+            margin-top: 30px;
+        }
+
+        .font-bold {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -29,41 +48,51 @@
         </div>
 
         <!-- Report Details -->
-        <h4 class="mt-4">Report Details</h4>
+        <div class="report-details">
+            <h4 class="mt-4">Report Details</h4>
 
-        <div class="row">
-            <div class="col-md-3 font-weight-bold">Visit Date:</div>
-            <div class="col-md-9">@Html.DisplayFor(model => model.VisitDate)</div>
+            <div class="row mt-2">
+                <div class="col-md-3 font-bold">Visit Date:</div>
+                <div class="col-md-9">@Html.DisplayFor(model => model.VisitDate)</div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 font-bold">Patient Name:</div>
+                <div class="col-md-9">@ViewBag.PatientName</div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 font-bold">Doctor:</div>
+                <div class="col-md-9">@Html.DisplayFor(model => model.Doctor.Name)</div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 font-bold">Symptoms:</div>
+                <div class="col-md-9">@Html.DisplayFor(model => model.Symptoms)</div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 font-bold">Diagnosis:</div>
+                <div class="col-md-9">@Html.DisplayFor(model => model.Diagnosis)</div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 font-bold">Prescriptions:</div>
+                <div class="col-md-9">@Html.DisplayFor(model => model.Prescriptions)</div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 font-bold">Appointment ID:</div>
+                <div class="col-md-9">@Html.DisplayFor(model => model.Appointment.AppointmentId)</div>
+            </div>
         </div>
 
-        <div class="row mt-2">
-            <div class="col-md-3 font-weight-bold">Patient Name:</div>
-            <div class="col-md-9">@ViewBag.PatientName</div>
-        </div>
-
-        <div class="row mt-2">
-            <div class="col-md-3 font-weight-bold">Doctor:</div>
-            <div class="col-md-9">@Html.DisplayFor(model => model.Doctor.Name)</div>
-        </div>
-
-        <div class="row mt-2">
-            <div class="col-md-3 font-weight-bold">Symptoms:</div>
-            <div class="col-md-9">@Html.DisplayFor(model => model.Symptoms)</div>
-        </div>
-
-        <div class="row mt-2">
-            <div class="col-md-3 font-weight-bold">Diagnosis:</div>
-            <div class="col-md-9">@Html.DisplayFor(model => model.Diagnosis)</div>
-        </div>
-
-        <div class="row mt-2">
-            <div class="col-md-3 font-weight-bold">Appointment ID:</div>
-            <div class="col-md-9">@Html.DisplayFor(model => model.Appointment.AppointmentId)</div>
-        </div>
+        <!-- Footer -->
         <div class="footer">
             <p>Thank you for choosing our clinic for your healthcare needs.</p>
             <p>&copy; 2024 Your Clinic Name. All rights reserved.</p>
         </div>
+
         <!-- Print Button -->
         <div class="text-right mt-4">
             <a href="javascript:window.print()"><i class="fa fa-print"></i> Print</a>

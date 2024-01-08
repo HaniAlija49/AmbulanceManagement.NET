@@ -65,6 +65,18 @@ namespace AmbulanceManagement.Controllers
         }
 
 
+        public IActionResult CreateWithId(int appointmentId, string doctorId, DateTime date)
+        {
+            var newReport = new Report
+            {
+                AppointmentId = appointmentId,
+                DoctorId = doctorId,
+                VisitDate = date
+            };
+            return View(newReport);
+        }
+
+
         // POST: Reports/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
