@@ -14,6 +14,7 @@ namespace AmbulanceManagement.Models
         public DateTime VisitDate { get; set; }
         public string? Symptoms { get; set; }
         public string? Diagnosis { get; set; }
+        public string? Prescriptions { get; set; }
 
         [ForeignKey("DoctorId")]
         public virtual ApplicationUser? Doctor { get; set; }

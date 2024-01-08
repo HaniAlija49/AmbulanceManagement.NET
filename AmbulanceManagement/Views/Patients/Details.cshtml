@@ -59,10 +59,12 @@
 
         <div class="tab-content">
             <div class="tab-pane show active" id="about-cont">
+
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card-box">
-                            <h3 class="card-title">Medical Reports</h3>
+                            <h3 class="card-title">Medical Reports </h3>
+                                
                             <div class="experience-box">
                                 <table class="table table-border table-striped custom-table datatable mb-0">
                                     <thead>
@@ -70,6 +72,7 @@
                                             <th>Visit Date</th>
                                             <th>Symptoms</th>
                                             <th>Diagnosis</th>
+                                            <th>Prescriptions</th>
                                             <!-- Add other report fields as needed -->
                                         </tr>
                                     </thead>
@@ -82,7 +85,7 @@
                                                     <td><a asp-action="Details" asp-controller="Reports" asp-route-id="@report.ReportId">@report.VisitDate.ToString("yyyy-MM-dd")</a></td>
                                                     <td>@report.Symptoms</td>
                                                     <td>@report.Diagnosis</td>
-                                                    <!-- Add more report fields as needed -->
+                                                    <td>@report.Prescriptions</td>
                                                 </tr>
                                             }
                                         }

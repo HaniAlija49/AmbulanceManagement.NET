@@ -252,6 +252,28 @@ namespace InventoryManagement.Controllers
                         View(await _dbContext.Users.ToListAsync()) :
                         Problem("Entity set 'ApplicationDbContext.User'  is null.");
         }
+        public async Task<IActionResult> ListDoctors()
+        {
+            var doctorRoleId = await _roleManager.FindByNameAsync("Doctor");
+            var nurseRoleId = await _roleManager.FindByNameAsync("Nurse");
+
+            if (doctorRoleId != null && nurseRoleId != null)
+            {
+                var doctorUsers = await _userManager.GetUsersInRoleAsync(doctorRoleId.Name);
+                var nurseUsers = await _userManager.GetUsersInRoleAsync(nurseRoleId.Name);
+
+                return View(new DoctorNurseViewModel
+                {
+                    DoctorUsers = doctorUsers.ToList(),
+                    NurseUsers = nurseUsers.ToList()
+                });
+            }
+            else
+            {
+                return Problem("Roles 'Doctor' or 'Nurse' not found.");
+            }
+        }
+
         public IActionResult Details(string id)
         {
             if (id == null)

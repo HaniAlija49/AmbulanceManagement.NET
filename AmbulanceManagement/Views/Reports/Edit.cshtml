@@ -39,6 +39,11 @@
                 <span asp-validation-for="Diagnosis" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Prescriptions" class="control-label"></label>
+                <input asp-for="Prescriptions" class="form-control" />
+                <span asp-validation-for="Prescriptions" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>

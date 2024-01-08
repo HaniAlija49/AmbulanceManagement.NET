@@ -28,6 +28,17 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.Use(async (context, next) =>
+{
+	await next();
+
+	if (context.Response.StatusCode == 404)
+	{
+		context.Request.Path = "/Home/Privacy";
+		await next();
+	}
+});
+
 app.UseRouting();
 
 app.UseAuthentication();

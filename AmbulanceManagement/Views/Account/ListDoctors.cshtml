@@ -1,0 +1,52 @@
+﻿@model AmbulanceManagement.ViewModels.DoctorNurseViewModel
+
+    <!-- Doctors Section -->
+    <div class="row">
+        <div class="col-sm-4 col-3">
+            <h4 class="page-title">Doctors</h4>
+        </div>
+    </div>
+        <div class="row doctor-grid">
+            <!-- Display Doctors -->
+            @foreach (var doctor in Model.DoctorUsers)
+            {
+                <div class="col-md-4 col-sm-4 col-lg-3">
+                    <div class="profile-widget">
+                <div class="doctor-img">
+                    <div class="avatar">
+                        <img alt="" src="data:image/jpeg;base64,@(Convert.ToBase64String(doctor.ProfilePictureData))">
+                    </div>
+                </div>
+                        <!-- Doctor Details -->
+                        <h4 class="doctor-name text-ellipsis"><a href="profile.html">@doctor.Name</a></h4>
+                        <div class="doc-prof">@doctor.Type</div>
+                        <!-- Display other doctor attributes as needed -->
+                    </div>
+                </div>
+            }
+</div>
+            <div class="row">
+                <div class="col-sm-4 col-3">
+                    <h4 class="page-title">Nurses</h4>
+                </div>
+            </div>
+<div class="row doctor-grid">   
+            <!-- Display Nurses -->
+            @foreach (var nurse in Model.NurseUsers)
+            {
+                <div class="col-md-4 col-sm-4 col-lg-3">
+                    <div class="profile-widget">
+                <div class="doctor-img">
+                    <div class="avatar">
+                        <img alt="" src="data:image/jpeg;base64,@(Convert.ToBase64String(nurse.ProfilePictureData))">
+                    </div>
+                </div>
+                        <!-- Nurse Details -->
+                        <h4 class="doctor-name text-ellipsis"><a href="profile.html">@nurse.Name</a></h4>
+                        <div class="doc-prof">@nurse.Type</div>
+                        <!-- Display other nurse attributes as needed -->
+                    </div>
+                </div>
+            }
+        </div>
+

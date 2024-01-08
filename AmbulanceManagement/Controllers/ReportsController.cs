@@ -8,16 +8,19 @@ using Microsoft.EntityFrameworkCore;
 using AmbulanceManagement.Data;
 using AmbulanceManagement.Models;
 using AmbulanceManagement.Migrations;
+using Microsoft.AspNetCore.Identity;
 
 namespace AmbulanceManagement.Controllers
 {
     public class ReportsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ReportsController(ApplicationDbContext context)
+        public ReportsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Reports
@@ -61,12 +64,13 @@ namespace AmbulanceManagement.Controllers
             return View();
         }
 
+
         // POST: Reports/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ReportId,AppointmentId,DoctorId,VisitDate,Symptoms,Diagnosis")] Report report)
+        public async Task<IActionResult> Create([Bind("ReportId,AppointmentId,DoctorId,VisitDate,Symptoms,Diagnosis,Prescriptions")] Report report)
         {
             if (ModelState.IsValid)
             {
@@ -93,7 +97,7 @@ namespace AmbulanceManagement.Controllers
                 return NotFound();
             }
             ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentId", report.AppointmentId);
-            ViewData["DoctorId"] = new SelectList(_context.Users, "Id", "Id", report.DoctorId);
+            ViewData["DoctorId"] = new SelectList(_context.Users, "Id", "Name", report.DoctorId);
             return View(report);
         }
 
@@ -102,7 +106,7 @@ namespace AmbulanceManagement.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ReportId,AppointmentId,DoctorId,VisitDate,Symptoms,Diagnosis")] Report report)
+        public async Task<IActionResult> Edit(int id, [Bind("ReportId,AppointmentId,DoctorId,VisitDate,Symptoms,Diagnosis,Prescriptions")] Report report)
         {
             if (id != report.ReportId)
             {
