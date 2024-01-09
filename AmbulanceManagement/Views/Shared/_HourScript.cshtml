@@ -1,0 +1,19 @@
+﻿<script>
+    $(function () {
+        $('#appointmentDate').change(function () {
+            var selectedDate = $(this).val();
+            $.ajax({
+                url: '/Appointments/GetFreeHours',
+                type: 'GET',
+                data: { appointmentDate: selectedDate },
+                success: function (data) {
+                    var hoursDropdown = $('#appointmentHour');
+                    hoursDropdown.empty();
+                    $.each(data, function (index, value) {
+                        hoursDropdown.append($('<option>').text(value).attr('value', value));
+                    });
+                }
+            });
+        });
+    });
+</script>

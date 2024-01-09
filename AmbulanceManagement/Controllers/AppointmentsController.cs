@@ -9,6 +9,7 @@ using AmbulanceManagement.Data;
 using AmbulanceManagement.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
+using AmbulanceManagement.Utility;
 
 namespace AmbulanceManagement.Controllers
 {
@@ -64,18 +65,55 @@ namespace AmbulanceManagement.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AppointmentId,PatientId,DoctorId, AppointmentDate, AppointmentHour,IsApproved")] Appointment appointment)
+        public async Task<IActionResult> Create([Bind("AppointmentId,PatientId,DoctorId,AppointmentDate,AppointmentHour,IsApproved")] Appointment appointment)
         {
             if (ModelState.IsValid)
             {
+                // Check if the selected appointment slot is available
+                var existingAppointment = await _context.Appointment
+                    .FirstOrDefaultAsync(a => a.AppointmentDate == appointment.AppointmentDate && a.AppointmentHour == appointment.AppointmentHour);
+
+                if (existingAppointment != null)
+                {
+                    // Slot is already taken, handle accordingly (e.g., display an error message)
+                    ModelState.AddModelError("AppointmentHour", "Selected slot is already taken. Please choose another slot.");
+                    ViewData["DoctorId"] = new SelectList(_context.Users, "Id", "Name", appointment.DoctorId);
+                    ViewData["PatientId"] = new SelectList(_context.Patient, "Id", "Name", appointment.PatientId);
+                    return View(appointment);
+                }
+
+                // Slot is available, proceed with saving the appointment
                 _context.Add(appointment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            // If ModelState is not valid, populate dropdowns and return the view with the model
             ViewData["DoctorId"] = new SelectList(_context.Users, "Id", "Name", appointment.DoctorId);
             ViewData["PatientId"] = new SelectList(_context.Patient, "Id", "Name", appointment.PatientId);
             return View(appointment);
         }
+        private List<Hour> GetFreeHoursPrivate(DateTime appointmentDate)
+        {
+            var existingAppointments = _context.Appointment
+                .Where(a => a.AppointmentDate == appointmentDate)
+                .Select(a => a.AppointmentHour)
+                .ToList();
+
+            var allHours = Enum.GetValues(typeof(Hour)).Cast<Hour>().ToList();
+
+            var freeHours = allHours.Except(existingAppointments).ToList();
+
+            return freeHours;
+        }
+
+        [HttpGet]
+        public JsonResult GetFreeHours(DateTime appointmentDate)
+        {
+            var freeHours = GetFreeHoursPrivate(appointmentDate);
+            return Json(freeHours);
+        }
+
 
         // GET: Appointments/Edit/5
         public async Task<IActionResult> Edit(int? id)
