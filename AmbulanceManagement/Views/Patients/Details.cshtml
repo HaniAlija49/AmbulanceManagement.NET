@@ -1,5 +1,16 @@
 ﻿@model AmbulanceManagement.Models.Patient
+@inject Microsoft.AspNetCore.Identity.UserManager<AmbulanceManagement.Models.ApplicationUser> userManager
+@inject Microsoft.AspNetCore.Identity.SignInManager<AmbulanceManagement.Models.ApplicationUser> signInManager
+@{
+    var user = await userManager.GetUserAsync(User);
+    var isDoctor = false;
 
+
+    if (user != null && signInManager.IsSignedIn(User))
+    {
+        isDoctor = await userManager.IsInRoleAsync(user, "Doctor");
+    }
+}
 @{
     ViewData["Title"] = "Details";
     var reports = ViewData["Reports"] as List<Report>;
@@ -12,9 +23,11 @@
         <div class="col-sm-7 col-6">
             <h4 class="page-title">Patient Details</h4>
         </div>
+          @if(!isDoctor){
         <div class="col-sm-5 col-6 text-right m-b-30">
             <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary btn-rounded"><i class="fa fa-pencil"></i> Edit Patient</a>
         </div>
+          }
     </div>
 
     <div class="card-box profile-header">

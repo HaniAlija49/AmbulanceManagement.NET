@@ -1,11 +1,13 @@
 ﻿using AmbulanceManagement.Data;
 using AmbulanceManagement.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace AmbulanceManagement.Controllers
 {
+	[Authorize]
 	public class HomeController : Controller
 	{
         private readonly ApplicationDbContext _db;

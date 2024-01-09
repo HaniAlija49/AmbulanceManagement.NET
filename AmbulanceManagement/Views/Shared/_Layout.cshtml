@@ -4,11 +4,13 @@
     var user = await userManager.GetUserAsync(User);
     var isAdmin = false;
     var isDoctor = false;
+    var isNurse = false;
 
     if (user != null && signInManager.IsSignedIn(User))
     {
         isAdmin = await userManager.IsInRoleAsync(user, "Admin");
         isDoctor = await userManager.IsInRoleAsync(user, "Doctor");
+        isNurse = await userManager.IsInRoleAsync(user, "Nurse");
     }
 }
 <!DOCTYPE html>
@@ -80,17 +82,9 @@
                         <div id="sidebar-menu" class="sidebar-menu">
                             <ul>
                                 <li class="menu-title">Main</li>
-                                @* <li class="active">
-                                <a href="index-2.html"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
-                            </li>
-
-
-                            <li>
-                                <a href="appointments.html"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
-                        </li>
-                            <li>
-                                <a href="departments.html"><i class="fa fa-hospital-o"></i> <span>Departments</span></a>
-                        </li> *@
+                                <li class="active">
+                                    <a asp-controller="Home" asp-action="Index"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                                </li>
                                 <li>
                                     <a asp-action="ListAll" asp-controller="Account"><i class="fa fa-user-md"></i> <span>Employees</span></a>
                                 </li>
@@ -104,33 +98,7 @@
                                     <a asp-action="Index" asp-controller="Reports"><i class="fa fa-book"></i> <span>Reports</span></a>
                                 </li>
 
-                                @* <li class="submenu">
-                                <a asp-action="Index" asp-controller="Appointment"><i class="fa fa-user"></i> <span> Employees </span> <span class="menu-arrow"></span></a>
-                                <ul style="display: none;">
-                                    <li><a asp-action="Index" asp-controller="Appointments">Appointments List</a></li>
-                                    <li><a asp-action="Create" asp-controller="Appointments">Leaves</a></li>
-                                    <li><a asp-action="Index" asp-controller="Appointments">Holidays</a></li>
-                                    <li><a asp-action="Index" asp-controller="Appointments">Attendance</a></li>
-                                </ul>
-                            </li> 
-                            <li class="submenu">
-                                <a href="#"><i class="fa fa-money"></i> <span> Accounts </span> <span class="menu-arrow"></span></a>
-                                <ul style="display: none;">
-                                    <li><a href="invoices.html">Invoices</a></li>
-                                    <li><a href="payments.html">Payments</a></li>
-                                    <li><a href="expenses.html">Expenses</a></li>
-                                    <li><a href="taxes.html">Taxes</a></li>
-                                    <li><a href="provident-fund.html">Provident Fund</a></li>
-                                </ul>
-                            </li>
-                            <li class="submenu">
-                                <a href="#"><i class="fa fa-book"></i> <span> Payroll </span> <span class="menu-arrow"></span></a>
-                                <ul style="display: none;">
-                                    <li><a href="salary.html"> Employee Salary </a></li>
-                                    <li><a href="salary-view.html"> Payslip </a></li>
-                                </ul>
-                            </li>
-                        *@
+
                             </ul>
                         </div>
                     </div>
@@ -142,17 +110,43 @@
                         <div id="sidebar-menu" class="sidebar-menu">
                             <ul>
                                 <li class="menu-title">Main Doctor</li>
-                                @* <li class="active">
-                        <a href="index-2.html"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
-                        </li>
+                                 <li class="active">
+                                    <a asp-controller="Home" asp-action="Index"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                                </li>
+                                <li>
+                                    <a asp-action="ListDoctors" asp-controller="Account"><i class="fa fa-user-md"></i> <span>Employees</span></a>
+                                </li>
 
+                                <li>
+                                    <a asp-action="Index" asp-controller="Patients"><i class="fa fa-wheelchair"></i> <span> Patients </span> </a>
+                                </li>
+                                <li class="submenu">
+                                    <a asp-action="Index" asp-controller="Appointments"><i class="fa fa-calendar"></i> <span> Appointments </span> <span class="menu-arrow"></span></a>
+                                    <ul style="display: none;">
+                                        <li><a asp-action="Index" asp-controller="Appointments"> List Appointments</a></li>
+                                        <li><a asp-action="Create" asp-controller="Appointments">Create Appointment</a></li>
+                                    </ul>
 
-                        <li>
-                        <a href="appointments.html"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
-                        </li>
-                        <li>
-                        <a href="departments.html"><i class="fa fa-hospital-o"></i> <span>Departments</span></a>
-                        </li> *@
+                                </li>
+                                <li>
+                                    <a asp-action="Index" asp-controller="Reports"><i class="fa fa-book"></i> <span>Reports</span></a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (isNurse)
+            {
+                <div class="sidebar" id="sidebar">
+                    <div class="sidebar-inner slimscroll">
+                        <div id="sidebar-menu" class="sidebar-menu">
+                            <ul>
+                                <li class="menu-title">Main Doctor</li>
+                                <li class="active">
+                                    <a asp-controller="Home" asp-action="Index"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                                </li>
                                 <li>
                                     <a asp-action="ListDoctors" asp-controller="Account"><i class="fa fa-user-md"></i> <span>Employees</span></a>
                                 </li>
@@ -177,25 +171,7 @@
                                     <a asp-action="Index" asp-controller="Reports"><i class="fa fa-book"></i> <span>Reports</span></a>
                                 </li>
 
-                                 @*
-                        <li class="submenu">
-                        <a href="#"><i class="fa fa-money"></i> <span> Accounts </span> <span class="menu-arrow"></span></a>
-                        <ul style="display: none;">
-                        <li><a href="invoices.html">Invoices</a></li>
-                        <li><a href="payments.html">Payments</a></li>
-                        <li><a href="expenses.html">Expenses</a></li>
-                        <li><a href="taxes.html">Taxes</a></li>
-                        <li><a href="provident-fund.html">Provident Fund</a></li>
-                        </ul>
-                        </li>
-                        <li class="submenu">
-                        <a href="#"><i class="fa fa-book"></i> <span> Payroll </span> <span class="menu-arrow"></span></a>
-                        <ul style="display: none;">
-                        <li><a href="salary.html"> Employee Salary </a></li>
-                        <li><a href="salary-view.html"> Payslip </a></li>
-                        </ul>
-                        </li>
-                        *@
+                           
                             </ul>
                         </div>
                     </div>

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AmbulanceManagement.Data;
 using AmbulanceManagement.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AmbulanceManagement.Controllers
 {
@@ -20,6 +21,7 @@ namespace AmbulanceManagement.Controllers
         }
 
         // GET: Patients
+        [Authorize]
         public async Task<IActionResult> Index(string searchQuery)
         {
             IQueryable<Patient> patientsQuery = _context.Patient;
@@ -42,6 +44,7 @@ namespace AmbulanceManagement.Controllers
 
 
         // GET: Patients/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Patient == null)
@@ -65,6 +68,7 @@ namespace AmbulanceManagement.Controllers
         }
 
         // GET: Patients/Create
+        [Authorize(Roles = "Nurse,Admin")]
         public IActionResult Create()
         {
             return View();
@@ -75,6 +79,7 @@ namespace AmbulanceManagement.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Nurse,Admin")]
         public async Task<IActionResult> Create([Bind("Id,Name,LastName,EmailAddress,PhoneNumber,Age,Adress")] Patient patient)
         {
             if (ModelState.IsValid)
@@ -87,6 +92,7 @@ namespace AmbulanceManagement.Controllers
         }
 
         // GET: Patients/Edit/5
+        [Authorize(Roles = "Nurse,Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Patient == null)
@@ -107,6 +113,7 @@ namespace AmbulanceManagement.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Nurse,Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,LastName,EmailAddress,PhoneNumber,Age,Adress")] Patient patient)
         {
             if (id != patient.Id)
@@ -138,6 +145,7 @@ namespace AmbulanceManagement.Controllers
         }
 
         // GET: Patients/Delete/5
+        [Authorize(Roles = "Nurse,Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Patient == null)
@@ -158,6 +166,7 @@ namespace AmbulanceManagement.Controllers
         // POST: Patients/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Nurse,Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Patient == null)

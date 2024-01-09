@@ -22,7 +22,7 @@ namespace InventoryManagement.Controllers
 		SignInManager<ApplicationUser> _signInManager;
 		RoleManager<IdentityRole> _roleManager;
 
-		public AccountController(ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager,
+        public AccountController(ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager,
 		SignInManager<ApplicationUser> signInManager,
 		RoleManager<IdentityRole> roleManager)
 		{
@@ -30,64 +30,9 @@ namespace InventoryManagement.Controllers
 			_userManager = userManager;
 			_signInManager = signInManager;
 			_roleManager = roleManager;
-		}
+        }
         private void InitializeAdminUser()
         {
-            //if (_dbContext.Users.Count() <= 3)
-            {
-                //            var user = new ApplicationUser()
-                //            {
-
-                //                UserName = "Admin",
-                //                Email = "admin@gmail.com",
-                //                Name = "Admin",
-                //                Number = 00,
-                //                DateOfBirth = new DateTime(2008, 3, 15),
-                //                Gender = Gender.Male,
-                //                Education = "Admin",
-                //                Type = "Admin",
-                //                Biography = "Admin"
-                //            };
-                //var password = "Hani123@";
-
-                //            var passwordValidator = _userManager.PasswordValidators.First();
-                //            var validationResult = await passwordValidator.ValidateAsync(_userManager, user, password);
-
-
-                //if (validationResult.Succeeded)
-                //{
-                //                if (!_roleManager.RoleExistsAsync(Helper.Admin).GetAwaiter().GetResult())
-                //                {
-                //                    await _roleManager.CreateAsync(new IdentityRole(Helper.Admin));
-                //                }
-                //                var result = await _userManager.CreateAsync(user, password);
-                //                await _userManager.AddToRoleAsync(user, Helper.Admin);
-                //                await _signInManager.SignInAsync(user, isPersistent: false);
-
-                //            }
-
-                //var user = new ApplicationUser()
-                //{
-                //    UserName = "Admini",
-                //    Email ="admin@gmail.com",
-                //    Name = "admin",
-                //    Number =00,
-                //    DateOfBirth = new DateTime(2003,06,01),
-                //    Gender = Gender.Male,
-                //    Education = "Admin",
-                //    Type = "Admin",
-                //    Biography = "Admin"
-                //};
-
-                //var result = await _userManager.CreateAsync(user, "Hani123@");
-
-                //if (result.Succeeded)
-                //{
-                //    await _userManager.AddToRoleAsync(user, Helper.Admin);
-                //    await _signInManager.SignInAsync(user, isPersistent: false);
-                //    return RedirectToAction("Index", "Home");
-                //}
-            }
             _dbContext.Database.EnsureCreated();
 
             if (!_dbContext.Users.Any())
@@ -147,14 +92,8 @@ namespace InventoryManagement.Controllers
 		}
 
 		[HttpPost]
-		
 		public async Task<IActionResult> Login([FromForm] LoginViewModel loginViewModel)
 		{
-
-			//Creating First user Admin
-
-     
-
             if (!ModelState.IsValid)
 				return View(loginViewModel);
 
@@ -245,7 +184,7 @@ namespace InventoryManagement.Controllers
             return View(model);
         }
 
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ListAll()
         {
             return _dbContext.Users != null ?
@@ -291,36 +230,37 @@ namespace InventoryManagement.Controllers
             return View(user);
         }
 
-        [Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Edit(string id)
 		{
-			var user = await _userManager.FindByIdAsync(id);
+            var u = await _userManager.GetUserAsync(User);
+            var user = await _userManager.FindByIdAsync(id);
 
-			if (user == null)
-			{
-				return NotFound();
-			}
+            if (u != null && await _userManager.IsInRoleAsync(u, "Admin") || u.Id == user.Id)
+            {
+                if (user == null)
+                {
+                    return NotFound();
+                }
 
-			var editViewModel = new EditAccountViewModel
-			{
-				Id = user.Id,
-				Name = user.Name,
-				Number = user.Number,
-				DateOfBirth = user.DateOfBirth,
-				Gender = user.Gender,
-				Education = user.Education,
-				Type = user.Type,
-				Biography = user.Biography
-			};
-
-			return View(editViewModel);
+                var editViewModel = new EditAccountViewModel
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Number = user.Number,
+                    DateOfBirth = user.DateOfBirth,
+                    Gender = user.Gender,
+                    Education = user.Education,
+                    Type = user.Type,
+                    Biography = user.Biography
+                };
+                return View(editViewModel);
+            }
+                return NotFound();
 		}
 
-		[HttpPost]
-		[Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(EditAccountViewModel model, IFormFile profilePicture)
+        public async Task<IActionResult> Edit(EditAccountViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -343,16 +283,7 @@ namespace InventoryManagement.Controllers
             user.Type = model.Type;
             user.Biography = model.Biography;
 
-            // Handle profile picture update
-            if (profilePicture != null)
-            {
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    await profilePicture.CopyToAsync(ms);
-                    user.ProfilePictureData = ms.ToArray();
-                    user.ProfilePictureContentType = profilePicture.ContentType;
-                }
-            }
+
 
             // Update other properties as needed
             var result = await _userManager.UpdateAsync(user);
@@ -387,8 +318,8 @@ namespace InventoryManagement.Controllers
 		}
 
 		[HttpPost, ActionName("Delete")]
-		[Authorize(Roles = "Admin")]
-		[ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
 		public async Task<IActionResult> DeleteConfirmed(string id)
 		{
 			var user = await _userManager.FindByIdAsync(id);
@@ -417,24 +348,29 @@ namespace InventoryManagement.Controllers
 
         public async Task<IActionResult> EditPassword(string id)
         {
+            var u = await _userManager.GetUserAsync(User);
             var user = await _userManager.FindByIdAsync(id);
 
-            if (user == null)
+            if (u != null && await _userManager.IsInRoleAsync(u, "Admin") || u.Id == user.Id)
             {
-                return NotFound();
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                var EditPassword = new ChangePasswordViewModel
+                {
+                    Password = "",
+                    ConfirmPassword = ""
+                };
+
+                return View(EditPassword);
             }
-
-			var EditPassword = new ChangePasswordViewModel
-			{
-				Password = "",
-				ConfirmPassword = ""
-            };
-
-            return View(EditPassword);
+            return NotFound();
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditPassword(ChangePasswordViewModel model)
         {
             if (!ModelState.IsValid)
@@ -476,7 +412,78 @@ namespace InventoryManagement.Controllers
 
             return View(model);
         }
+        public async Task<IActionResult> EditProfilePic(string id)
+        {
+            var u = await _userManager.GetUserAsync(User);
+            var user = await _userManager.FindByIdAsync(id);
 
+            if (u != null && await _userManager.IsInRoleAsync(u, "Admin") || u.Id == user.Id)
+            {
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+
+                return View();
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditProfilePic(ChangeAccountProfilePicViewModel model, IFormFile profilePicture)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.FindByIdAsync(model.Id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+
+            // Handle profile picture update
+            if (profilePicture != null)
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    await profilePicture.CopyToAsync(ms);
+                    user.ProfilePictureData = ms.ToArray();
+                    user.ProfilePictureContentType = profilePicture.ContentType;
+                }
+            }
+            // Update other properties as needed
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if (result.Succeeded)
+            {
+                // Redirect to user profile or another appropriate page
+                var u = await _userManager.GetUserAsync(User);
+
+                if (u != null && await _userManager.IsInRoleAsync(u, "Admin"))
+                {
+                    return RedirectToAction("ListAll", "Account");
+                }
+                else
+                {
+                    return RedirectToAction("Details", "Account", new { id = u.Id });
+
+                }
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+
+            return View(model);
+        }
 
 
     }

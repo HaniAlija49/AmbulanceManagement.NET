@@ -8,10 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using AmbulanceManagement.Data;
 using AmbulanceManagement.Models;
 using Microsoft.AspNetCore.Http;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace AmbulanceManagement.Controllers
 {
+    [Authorize]
     public class AppointmentsController : Controller
     {
         private readonly ApplicationDbContext _context;

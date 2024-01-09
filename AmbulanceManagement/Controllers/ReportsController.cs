@@ -9,9 +9,11 @@ using AmbulanceManagement.Data;
 using AmbulanceManagement.Models;
 using AmbulanceManagement.Migrations;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AmbulanceManagement.Controllers
 {
+    [Authorize]
     public class ReportsController : Controller
     {
         private readonly ApplicationDbContext _context;
