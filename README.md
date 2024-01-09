@@ -49,7 +49,6 @@ To run the Ambulance Management System locally, follow these steps:
 
 - **`/src`:** Contains the source code for the Ambulance Management System.
 - **`/docs`:** Documentation related to the project.
-- **`/images`:** Images used in the README and documentation.
 
 ## Database ER Diagram
 
