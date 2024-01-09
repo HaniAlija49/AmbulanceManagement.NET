@@ -1,6 +1,3 @@
-# Ambulance Management System
-
-![Ambulance Management System](https://github.com/HaniAlija49/AmbulanceManagement/blob/main/images/ambulance_system.jpg)
 
 ## Overview
 
@@ -56,11 +53,10 @@ To run the Ambulance Management System locally, follow these steps:
 
 ## Database ER Diagram
 
-![ER Diagram](https://github.com/HaniAlija49/AmbulanceManagement/blob/main/images/er_diagram.png)
 
 ## System Diagram
 
-![System Diagram](https://github.com/HaniAlija49/AmbulanceManagement/blob/main/images/system_diagram.png)
+
 
 ## Contributing
 
