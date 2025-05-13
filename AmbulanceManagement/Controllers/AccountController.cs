@@ -42,13 +42,16 @@ namespace InventoryManagement.Controllers
                     UserName = "admin@gmail.com",
                     Email = "admin@gmail.com",
                     Name = "admin",
-                    Number = 00,
-                    DateOfBirth = new DateTime(2003, 06, 01),
+                    Number = 0,
+                    DateOfBirth = new DateTime(2003, 6, 1),
                     Gender = Gender.Male,
                     Education = "Admin",
                     Type = "Admin",
-                    Biography = "Admin"
+                    Biography = "Admin",
+                    ProfilePictureContentType = "image/png",
+                    ProfilePictureData = Array.Empty<byte>() // or new byte[0]
                 };
+
 
                 var result = _userManager.CreateAsync(adminUser, "Admin123@").Result;
 
