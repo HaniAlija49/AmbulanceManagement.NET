@@ -37,6 +37,9 @@
   </ItemGroup>
 
 	<ItemGroup>
+	  <SpecFlowFeatureFiles Update="Features\AppointmentsController.feature">
+	    <Generator Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">SpecFlowSingleFileGenerator</Generator>
+	  </SpecFlowFeatureFiles>
 	  <SpecFlowFeatureFiles Update="Features\MakeAppointment.feature">
 	    <Generator Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">SpecFlowSingleFileGenerator</Generator>
 	  </SpecFlowFeatureFiles>

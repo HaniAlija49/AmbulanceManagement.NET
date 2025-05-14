@@ -176,14 +176,14 @@ namespace AmbulanceManagementTest.Features
 #line 6
   this.FeatureBackground();
 #line hidden
-                TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                             "Name",
                             "LastName",
                             "EmailAddress",
                             "PhoneNumber",
                             "Age",
                             "Adress"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "Azem",
                             "Jovani",
                             "azem.doe@test.com",
@@ -191,7 +191,7 @@ namespace AmbulanceManagementTest.Features
                             "31",
                             "Maple Street 2"});
 #line 19
-    testRunner.When("I submit a new patient with the following details:", ((string)(null)), table1, "When ");
+    testRunner.When("I submit a new patient with the following details:", ((string)(null)), table2, "When ");
 #line hidden
 #line 22
     testRunner.Then("the patient \"Azem Jovani\" should be visible in the patient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
