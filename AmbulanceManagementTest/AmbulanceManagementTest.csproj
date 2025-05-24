@@ -12,6 +12,7 @@
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="3.2.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
+    <PackageReference Include="Moq" Version="4.20.72" />
     <PackageReference Include="Selenium.Support" Version="4.32.0" />
     <PackageReference Include="Selenium.WebDriver" Version="4.32.0" />
     <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="136.0.7103.9200" />
@@ -19,6 +20,10 @@
     <PackageReference Include="SpecFlow.xUnit" Version="3.9.74" />
     <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AmbulanceManagement\AmbulanceManagement.csproj" />
   </ItemGroup>
 	<ItemGroup>
 		<None Update="*.feature">
@@ -32,10 +37,16 @@
   </ItemGroup>
 
 	<ItemGroup>
+	  <SpecFlowFeatureFiles Update="Features\AppointmentsController.feature">
+	    <Generator Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">SpecFlowSingleFileGenerator</Generator>
+	  </SpecFlowFeatureFiles>
 	  <SpecFlowFeatureFiles Update="Features\AccountController.feature">
 	    <Generator Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">SpecFlowSingleFileGenerator</Generator>
 	  </SpecFlowFeatureFiles>
 	  <SpecFlowFeatureFiles Update="Features\MakeAppointment.feature">
+	    <Generator Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">SpecFlowSingleFileGenerator</Generator>
+	  </SpecFlowFeatureFiles>
+	  <SpecFlowFeatureFiles Update="Features\PatientController.feature">
 	    <Generator Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">SpecFlowSingleFileGenerator</Generator>
 	  </SpecFlowFeatureFiles>
 	  <SpecFlowFeatureFiles Update="Features\ReportsController.feature">
