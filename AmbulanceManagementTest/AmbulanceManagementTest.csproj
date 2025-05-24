@@ -23,7 +23,7 @@
 	<ItemGroup>
 		<None Update="*.feature">
 			<Generator>SpecFlowSingleFileGenerator</Generator>
-			<LastGenOutput>AmbulanceRequest.feature.cs</LastGenOutput>
+			<LastGenOutput>$(Filename).feature.cs</LastGenOutput>
 		</None>
 	</ItemGroup>
 
@@ -32,7 +32,13 @@
   </ItemGroup>
 
 	<ItemGroup>
+	  <SpecFlowFeatureFiles Update="Features\AccountController.feature">
+	    <Generator Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">SpecFlowSingleFileGenerator</Generator>
+	  </SpecFlowFeatureFiles>
 	  <SpecFlowFeatureFiles Update="Features\MakeAppointment.feature">
+	    <Generator Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">SpecFlowSingleFileGenerator</Generator>
+	  </SpecFlowFeatureFiles>
+	  <SpecFlowFeatureFiles Update="Features\ReportsController.feature">
 	    <Generator Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">SpecFlowSingleFileGenerator</Generator>
 	  </SpecFlowFeatureFiles>
 	</ItemGroup>
