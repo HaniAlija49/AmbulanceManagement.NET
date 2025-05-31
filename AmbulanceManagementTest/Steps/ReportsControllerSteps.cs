@@ -17,7 +17,9 @@ namespace AmbulanceManagement.UITests.StepDefinitions
             _driver = new ChromeDriver();
             _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
         }
+
         [BeforeScenario]
+        [Scope(Feature = "Reports")]
         public void EnsureLoggedIn()
         {
             LoginAsAdmin();
@@ -169,7 +171,7 @@ namespace AmbulanceManagement.UITests.StepDefinitions
             _driver.FindElement(By.Id("Email")).SendKeys("admin@gmail.com");
             _driver.FindElement(By.Id("Password")).SendKeys("Admin123@");
             _driver.FindElement(By.CssSelector("button.account-btn[type='submit']")).Click();
-            Assert.Contains("/Home", _driver.Url); // adjust if needed
+            Assert.Contains("/Home", _driver.Url);
         }
 
        
