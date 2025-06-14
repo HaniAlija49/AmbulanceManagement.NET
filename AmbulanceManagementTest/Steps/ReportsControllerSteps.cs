@@ -3,6 +3,7 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using TechTalk.SpecFlow;
 using Xunit;
+using System;
 
 namespace AmbulanceManagement.UITests.StepDefinitions
 {
@@ -10,19 +11,16 @@ namespace AmbulanceManagement.UITests.StepDefinitions
     public class ReportsStep : IDisposable
     {
         private readonly IWebDriver _driver;
+        private readonly WebDriverWait _wait;
         private readonly string _baseUrl = "https://localhost:7287";
 
         public ReportsStep()
         {
-            _driver = new ChromeDriver();
+            var options = new ChromeOptions();
+            options.AddArgument("start-maximized");
+            _driver = new ChromeDriver(options);
             _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
-        }
-
-        [BeforeScenario]
-        [Scope(Feature = "Reports")]
-        public void EnsureLoggedIn()
-        {
-            LoginAsAdmin();
+            _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
         }
 
         [Given(@"I navigate to the Reports Index page")]
@@ -75,9 +73,27 @@ namespace AmbulanceManagement.UITests.StepDefinitions
         [When(@"I enter visit date ""(.*)""")]
         public void WhenIEnterVisitDate(string date)
         {
-            _driver.FindElement(By.Id("VisitDate")).Clear();
-            _driver.FindElement(By.Id("VisitDate")).SendKeys(date);
+            var input = _driver.FindElement(By.Id("VisitDate"));
+            input.Clear();
+
+            // Split the input on known markers and send keys accordingly
+            string[] parts = date.Split(new[] { "[TAB]", "[RIGHT]" }, StringSplitOptions.None);
+
+            for (int i = 0; i < parts.Length; i++)
+            {
+                input.SendKeys(parts[i]);
+
+                // Send the special key between segments
+                if (i < parts.Length - 1)
+                {
+                    if (date.Contains("[TAB]"))
+                        input.SendKeys(Keys.Tab);
+                    else if (date.Contains("[RIGHT]"))
+                        input.SendKeys(Keys.ArrowRight);
+                }
+            }
         }
+
 
         [When(@"I enter symptoms ""(.*)""")]
         public void WhenIEnterSymptoms(string symptoms)
@@ -113,7 +129,6 @@ namespace AmbulanceManagement.UITests.StepDefinitions
         public void WhenIClickEdit()
         {
             _driver.FindElement(By.CssSelector("a.action-icon.dropdown-toggle")).Click();
-
             var editBtn = _driver.FindElement(By.CssSelector("a[href*='/Reports/Edit']"));
             editBtn.Click();
         }
@@ -160,20 +175,21 @@ namespace AmbulanceManagement.UITests.StepDefinitions
             _driver.SwitchTo().Window(tabs[1]);
             Assert.Contains("/Reports/Print", _driver.Url);
         }
+        [Given(@"I am logged in as a user with the Doctor role")]
+        public void GivenIAmLoggedInAsAUserWithTheRole()
+        {
+            _driver.Navigate().GoToUrl($"{_baseUrl}/Identity/Account/Login");
 
+            _wait.Until(d => d.FindElement(By.Id("Email"))).SendKeys("Adem@gmail.com");
+            _driver.FindElement(By.Id("Password")).SendKeys("Adem123@");
+            _driver.FindElement(By.CssSelector("button[type='submit']")).Click();
+
+            _wait.Until(d => d.Url.Contains("Home")); 
+        }
         public void Dispose()
         {
             _driver.Quit();
+            _driver.Dispose();
         }
-        private void LoginAsAdmin()
-        {
-            _driver.Navigate().GoToUrl($"{_baseUrl}/Account/Login");
-            _driver.FindElement(By.Id("Email")).SendKeys("admin@gmail.com");
-            _driver.FindElement(By.Id("Password")).SendKeys("Admin123@");
-            _driver.FindElement(By.CssSelector("button.account-btn[type='submit']")).Click();
-            Assert.Contains("/Home", _driver.Url);
-        }
-
-       
     }
 }

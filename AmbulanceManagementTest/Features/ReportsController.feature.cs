@@ -40,8 +40,8 @@ namespace AmbulanceManagementTest.Features
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Manage Medical Reports", "  As a doctor or admin\r\n  I want to view, create, edit, delete, and print medical" +
-                    " reports\r\n  So that I can manage patient treatment history", ProgrammingLanguage.CSharp, featureTags);
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Manage Medical Reports", "  As a doctor or Doctor\r\n  I want to view, create, edit, delete, and print medica" +
+                    "l reports\r\n  So that I can manage patient treatment history", ProgrammingLanguage.CSharp, featureTags);
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -100,9 +100,12 @@ namespace AmbulanceManagementTest.Features
             {
                 this.ScenarioStart();
 #line 7
-    testRunner.Given("I navigate to the Reports Index page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+    testRunner.Given("I am logged in as a user with the Doctor role", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 8
+    testRunner.And("I navigate to the Reports Index page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 9
     testRunner.Then("I should see a table of reports", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -117,7 +120,7 @@ namespace AmbulanceManagementTest.Features
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View details for a specific report", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 10
+#line 11
   this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -127,16 +130,19 @@ namespace AmbulanceManagementTest.Features
             else
             {
                 this.ScenarioStart();
-#line 11
-    testRunner.Given("I navigate to the Reports Index page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
 #line 12
-    testRunner.When("I click on the visit date of the first report", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+    testRunner.Given("I am logged in as a user with the Doctor role", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 13
-    testRunner.Then("I should see the report detail page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+    testRunner.And("I navigate to the Reports Index page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 14
+    testRunner.When("I click on the visit date of the first report", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 15
+    testRunner.Then("I should see the report detail page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 16
     testRunner.And("I should see the patient name, doctor name, and diagnosis", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
@@ -151,7 +157,7 @@ namespace AmbulanceManagementTest.Features
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create a new report", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 16
+#line 18
   this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -161,28 +167,31 @@ namespace AmbulanceManagementTest.Features
             else
             {
                 this.ScenarioStart();
-#line 17
-    testRunner.Given("I navigate to the Create Report page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 18
-    testRunner.When("I select an appointment and a doctor", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
 #line 19
-      testRunner.And("I enter visit date \"2020202222222\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+    testRunner.Given("I am logged in as a user with the Doctor role", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 20
-      testRunner.And("I enter symptoms \"High fever\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+    testRunner.And("I navigate to the Create Report page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 21
-      testRunner.And("I enter diagnosis \"Flu\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+    testRunner.When("I select an appointment and a doctor", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 22
-      testRunner.And("I enter prescriptions \"Rest and hydration\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+      testRunner.And("I enter visit date \"20202022[TAB]2222\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 23
-      testRunner.And("I submit the create form", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+      testRunner.And("I enter symptoms \"High fever\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 24
+      testRunner.And("I enter diagnosis \"Flu\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 25
+      testRunner.And("I enter prescriptions \"Rest and hydration\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 26
+      testRunner.And("I submit the create form", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 27
     testRunner.Then("I should be redirected to the Reports Index", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -197,7 +206,7 @@ namespace AmbulanceManagementTest.Features
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Edit an existing report", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 26
+#line 29
   this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -207,19 +216,22 @@ namespace AmbulanceManagementTest.Features
             else
             {
                 this.ScenarioStart();
-#line 27
-    testRunner.Given("I navigate to the Reports Index page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 28
-    testRunner.When("I click the Edit button for the first report", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 29
-      testRunner.And("I change the diagnosis to \"Common cold\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
 #line 30
-      testRunner.And("I submit the edit form", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+    testRunner.Given("I am logged in as a user with the Doctor role", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 31
+    testRunner.And("I navigate to the Reports Index page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 32
+    testRunner.When("I click the Edit button for the first report", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 33
+      testRunner.And("I change the diagnosis to \"Common cold\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 34
+      testRunner.And("I submit the edit form", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 35
     testRunner.Then("I should be redirected to the Reports Index", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -234,7 +246,7 @@ namespace AmbulanceManagementTest.Features
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Delete a report", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 33
+#line 37
   this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -244,16 +256,19 @@ namespace AmbulanceManagementTest.Features
             else
             {
                 this.ScenarioStart();
-#line 34
-    testRunner.Given("I navigate to the Reports Index page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 38
+    testRunner.Given("I am logged in as a user with the Doctor role", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 35
+#line 39
+    testRunner.And("I navigate to the Reports Index page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 40
     testRunner.When("I click the Delete button for the first report", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 36
+#line 41
       testRunner.And("I confirm the deletion", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 37
+#line 42
     testRunner.Then("I should be redirected to the Reports Index", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -268,7 +283,7 @@ namespace AmbulanceManagementTest.Features
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Print a report", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 39
+#line 44
   this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -278,16 +293,19 @@ namespace AmbulanceManagementTest.Features
             else
             {
                 this.ScenarioStart();
-#line 40
-    testRunner.Given("I navigate to the Reports Index page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 45
+    testRunner.Given("I am logged in as a user with the Doctor role", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 41
+#line 46
+    testRunner.And("I navigate to the Reports Index page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 47
     testRunner.When("I click on the visit date of the first report", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 42
+#line 48
     testRunner.When("I click the Print button for the first report", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 43
+#line 49
     testRunner.Then("a new tab should open with the printable report", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
