@@ -17,11 +17,16 @@ Scenario: Add a new appointment for a patient
   Then the appointment with details "Uvejs, Adem" should be visible in the appointment list
 
 Scenario: View details of an appointment
-  Given an appointment with ID "9" exists
-  When I view the details of appointment with ID "9"
+  Given an appointment with ID "2" exists
+  When I view the details of appointment with ID "2"
   Then I should see the appointment details
 
 Scenario: Update appointment details
-  Given an appointment with ID "11" is present
+  Given an appointment with ID "2" is present
   When I update the appointment details to change the "Doctor" to "John"
   Then the appointment details should reflect the new doctor "John"
+
+  Scenario: Delete an existing appointment
+    When I delete the first appointment with patient name "Uvejs"
+    And I confirm the appointment deletion
+    Then the appointment with patient "Uvejs" should not appear in the list

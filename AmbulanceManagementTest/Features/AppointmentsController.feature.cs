@@ -183,10 +183,10 @@ this.ScenarioInitialize(scenarioInfo);
   this.FeatureBackground();
 #line hidden
 #line 20
-  testRunner.Given("an appointment with ID \"9\" exists", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+  testRunner.Given("an appointment with ID \"2\" exists", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 21
-  testRunner.When("I view the details of appointment with ID \"9\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+  testRunner.When("I view the details of appointment with ID \"2\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 22
   testRunner.Then("I should see the appointment details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -217,13 +217,47 @@ this.ScenarioInitialize(scenarioInfo);
   this.FeatureBackground();
 #line hidden
 #line 25
-  testRunner.Given("an appointment with ID \"11\" is present", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+  testRunner.Given("an appointment with ID \"2\" is present", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 26
   testRunner.When("I update the appointment details to change the \"Doctor\" to \"John\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 27
   testRunner.Then("the appointment details should reflect the new doctor \"John\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Delete an existing appointment")]
+        [Xunit.TraitAttribute("FeatureTitle", "Appointments Management")]
+        [Xunit.TraitAttribute("Description", "Delete an existing appointment")]
+        public void DeleteAnExistingAppointment()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Delete an existing appointment", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 29
+  this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 6
+  this.FeatureBackground();
+#line hidden
+#line 30
+    testRunner.When("I delete the first appointment with patient name \"Uvejs\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 31
+    testRunner.And("I confirm the appointment deletion", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 32
+    testRunner.Then("the appointment with patient \"Uvejs\" should not appear in the list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

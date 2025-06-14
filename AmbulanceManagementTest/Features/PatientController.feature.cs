@@ -40,8 +40,8 @@ namespace AmbulanceManagementTest.Features
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Patient Management", "  As an authorized user\r\n  I want to manage patient records\r\n  So that I can main" +
-                    "tain accurate and up-to-date patient information", ProgrammingLanguage.CSharp, featureTags);
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Patient Management", "    As an authorized user\r\n    I want to manage patient records\r\n    So that I ca" +
+                    "n maintain accurate and up-to-date patient information", ProgrammingLanguage.CSharp, featureTags);
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -79,9 +79,9 @@ namespace AmbulanceManagementTest.Features
         public virtual void FeatureBackground()
         {
 #line 6
-  #line hidden
+    #line hidden
 #line 7
-    testRunner.Given("I am logged in as a user with the \"Nurse\" role", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+      testRunner.Given("I am logged in as a user with the \"Nurse\" role", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
         
@@ -99,7 +99,7 @@ namespace AmbulanceManagementTest.Features
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View all patients", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 9
-  this.ScenarioInitialize(scenarioInfo);
+    this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
             {
@@ -109,13 +109,13 @@ namespace AmbulanceManagementTest.Features
             {
                 this.ScenarioStart();
 #line 6
-  this.FeatureBackground();
+    this.FeatureBackground();
 #line hidden
 #line 10
-    testRunner.When("I navigate to the \"Patients\" page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+      testRunner.When("I navigate to the \"Patients\" page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 11
-    testRunner.Then("I should see a list of all patients", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+      testRunner.Then("I should see a list of all patients", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -130,7 +130,7 @@ namespace AmbulanceManagementTest.Features
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Search for patients by name", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 13
-  this.ScenarioInitialize(scenarioInfo);
+    this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
             {
@@ -140,16 +140,16 @@ namespace AmbulanceManagementTest.Features
             {
                 this.ScenarioStart();
 #line 6
-  this.FeatureBackground();
+    this.FeatureBackground();
 #line hidden
 #line 14
-    testRunner.When("I navigate to the \"Patients\" page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+      testRunner.When("I navigate to the \"Patients\" page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 15
-    testRunner.And("I search for a patient with the name \"Uvejs\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+      testRunner.And("I search for a patient with the name \"Azem\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 16
-    testRunner.Then("I should see a list of patients containing \"Uvejs\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+      testRunner.Then("I should see a list of patients containing \"Azem\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -164,7 +164,7 @@ namespace AmbulanceManagementTest.Features
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create a new patient", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 18
- this.ScenarioInitialize(scenarioInfo);
+   this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
             {
@@ -174,7 +174,7 @@ namespace AmbulanceManagementTest.Features
             {
                 this.ScenarioStart();
 #line 6
-  this.FeatureBackground();
+    this.FeatureBackground();
 #line hidden
                 TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                             "Name",
@@ -191,10 +191,10 @@ namespace AmbulanceManagementTest.Features
                             "31",
                             "Maple Street 2"});
 #line 19
-    testRunner.When("I submit a new patient with the following details:", ((string)(null)), table2, "When ");
+      testRunner.When("I submit a new patient with the following details:", ((string)(null)), table2, "When ");
 #line hidden
 #line 22
-    testRunner.Then("the patient \"Azem Jovani\" should be visible in the patient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+      testRunner.Then("the patient \"Azem Jovani\" should be visible in the patient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -209,7 +209,7 @@ namespace AmbulanceManagementTest.Features
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View patient details", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 25
-  this.ScenarioInitialize(scenarioInfo);
+    this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
             {
@@ -219,16 +219,16 @@ namespace AmbulanceManagementTest.Features
             {
                 this.ScenarioStart();
 #line 6
-  this.FeatureBackground();
+    this.FeatureBackground();
 #line hidden
 #line 26
-    testRunner.Given("a patient named \"Muhamed Neziri\" exists", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+      testRunner.Given("a patient named \"Azem Jovani\" exists", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 27
-    testRunner.When("I view the details of patient \"Muhamed Neziri\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+      testRunner.When("I view the details of patient \"Azem Jovani\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 28
-    testRunner.Then("I should see the reports linked to their appointments", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+      testRunner.Then("I should see the reports linked to their appointments", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -243,7 +243,7 @@ namespace AmbulanceManagementTest.Features
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Edit an existing patient\'s age", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 30
-  this.ScenarioInitialize(scenarioInfo);
+    this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
             {
@@ -253,16 +253,53 @@ namespace AmbulanceManagementTest.Features
             {
                 this.ScenarioStart();
 #line 6
-  this.FeatureBackground();
+    this.FeatureBackground();
 #line hidden
 #line 31
-     testRunner.Given("a patient named \"Hani Alija\" exists", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+       testRunner.Given("a patient named \"Azem Jovani\" exists", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 32
-     testRunner.When("I update the age of \"Hani Alija\" to \"40\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+       testRunner.When("I update the age of \"Azem Jovani\" to \"40\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 33
-     testRunner.Then("the patient details should reflect the new age", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+       testRunner.Then("the patient details should reflect the new age", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="X_Delete a patient from the system")]
+        [Xunit.TraitAttribute("FeatureTitle", "Patient Management")]
+        [Xunit.TraitAttribute("Description", "X_Delete a patient from the system")]
+        public void X_DeleteAPatientFromTheSystem()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("X_Delete a patient from the system", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 35
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 6
+    this.FeatureBackground();
+#line hidden
+#line 36
+      testRunner.When("I navigate to the \"Patients\" page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 37
+      testRunner.And("I delete the patient with name \"Azem Jovani\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 38
+      testRunner.And("I confirm the patient deletion", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 39
+      testRunner.Then("the patient \"Azem Jovani\" should not appear in the list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

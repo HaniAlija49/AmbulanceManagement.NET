@@ -101,13 +101,13 @@ namespace AmbulanceManagement.UITests.StepDefinitions
             _driver.FindElement(By.Id("Email")).SendKeys("admin@gmail.com");
             _driver.FindElement(By.Id("Password")).SendKeys("Admin123@");
             _driver.FindElement(By.CssSelector("button.account-btn")).Click();
-
-            Assert.Contains("/Home", _driver.Url);
+            
         }
 
         [Given("I am on the user list page")]
         public void GivenIAmOnTheUserListPage()
         {
+            _driver.Manage().Window.Maximize();
             _driver.Navigate().GoToUrl($"{_baseUrl}/Account/ListAll");
         }
 

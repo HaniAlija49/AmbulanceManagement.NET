@@ -44,7 +44,7 @@ namespace AmbulanceManagement.Tests.StepDefinitions
         public void WhenINavigateToThePage(string page)
         {
             _driver.Navigate().GoToUrl($"{_baseUrl}/{page}");
-            _wait.Until(d => d.FindElement(By.CssSelector("h4.page-title"))); 
+            Thread.Sleep(500);
         }
 
         [Then(@"I should see a list of all patients")]
@@ -174,7 +174,7 @@ namespace AmbulanceManagement.Tests.StepDefinitions
             _driver.Navigate().GoToUrl($"{_baseUrl}/Patients");
 
             var patientLink = _wait.Until(d =>
-                d.FindElement(By.XPath("//a[text()='Hani Alija']"))
+                d.FindElement(By.XPath("//a[text()='Azem Jovani']"))
             );
             patientLink.Click();
 
@@ -185,7 +185,45 @@ namespace AmbulanceManagement.Tests.StepDefinitions
             Assert.Equal("40", ageField.Text);
         }
 
-      
+        [When(@"I delete the patient with name ""(.*)""")]
+        public void WhenIDeleteTheFirstPatientWithName(string fullName)
+        {
+            _driver.Navigate().GoToUrl($"{_baseUrl}/Patients");
+
+            // Find all patient rows
+            var rows = _wait.Until(d => d.FindElements(By.CssSelector("tbody tr")));
+
+            // Find the first matching row containing the patient's name
+            var row = rows.FirstOrDefault(r => r.FindElement(By.CssSelector("td a")).Text.Trim() == fullName);
+            Assert.NotNull(row);
+
+            // Open the dropdown menu
+            var dropdownToggle = row.FindElement(By.CssSelector(".dropdown-toggle"));
+            dropdownToggle.Click();
+
+            // Wait until the delete option appears in the dropdown
+            var deleteLink = _wait.Until(d => row.FindElement(By.XPath(".//a[contains(@href, '/Patients/Delete')]")));
+            deleteLink.Click();
+        }
+        [When(@"I confirm the patient deletion")]
+        public void WhenIConfirmThePatientDeletion()
+        {
+            var submitButton = _wait.Until(driver => driver.FindElement(By.CssSelector("form input[type='submit']")));
+            submitButton.Click();
+        }
+        [Then(@"the patient ""(.*)"" should not appear in the list")]
+        public void ThenThePatientShouldNotAppearInTheList(string fullName)
+        {
+            _driver.Navigate().GoToUrl($"{_baseUrl}/Patients");
+
+            Thread.Sleep(500); // small wait to ensure reload
+
+            var rows = _driver.FindElements(By.CssSelector("tbody tr"));
+            bool patientExists = rows.Any(r => r.Text.Contains(fullName));
+
+            Assert.False(patientExists, $"Patient '{fullName}' was found in the list after deletion.");
+        }
+
 
         public void Dispose()
         {

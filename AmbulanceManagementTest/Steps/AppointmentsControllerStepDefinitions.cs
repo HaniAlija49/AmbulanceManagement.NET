@@ -183,6 +183,50 @@ namespace AmbulanceManagement.Tests.StepDefinitions
             Assert.NotNull(doctorCell);
             Assert.Contains(expectedDoctor, doctorCell.Text);
         }
+        [When(@"I delete the first appointment with patient name ""(.*)""")]
+        public void WhenIDeleteTheFirstAppointmentWithPatientName(string patientName)
+        {
+            _driver.Navigate().GoToUrl($"{_baseUrl}/Appointments");
+
+            // Find all rows in the appointment table
+            var rows = _wait.Until(d => d.FindElements(By.CssSelector("table.table tbody tr")));
+
+            // Find the first row that contains the patient name
+            var row = rows.FirstOrDefault(r => r.Text.Contains(patientName));
+            Assert.NotNull(row);
+
+            // Open the dropdown menu
+            var dropdownToggle = row.FindElement(By.CssSelector(".dropdown-toggle"));
+            dropdownToggle.Click();
+
+            // Wait for the delete link to appear and click it
+            var deleteLink = _wait.Until(driver =>
+                row.FindElements(By.CssSelector("a.dropdown-item"))
+                    .FirstOrDefault(a => a.Text.Trim().Contains("Delete"))
+            );
+            Assert.NotNull(deleteLink);
+
+            deleteLink.Click();
+        }
+
+        [When("I confirm the appointment deletion")]
+        public void WhenIConfirmTheAppointmentDeletion()
+        {
+            var confirmButton = _wait.Until(d => d.FindElement(By.CssSelector("form input[type='submit']")));
+            confirmButton.Click();
+        }
+        [Then(@"the appointment with patient ""(.*)"" should not appear in the list")]
+        public void ThenTheAppointmentWithPatientShouldNotAppearInTheList(string patientName)
+        {
+            _driver.Navigate().GoToUrl($"{_baseUrl}/Appointments");
+
+            Thread.Sleep(500); // Small wait to allow page refresh
+
+            var rows = _driver.FindElements(By.CssSelector("table.table tbody tr"));
+            bool found = rows.Any(r => r.Text.Contains(patientName));
+
+            Assert.False(found, $"Appointment for patient '{patientName}' was still found after deletion.");
+        }
 
         public void Dispose()
         {
