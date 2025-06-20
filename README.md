@@ -9,6 +9,8 @@ The Ambulance Management System is a web-based solution designed to streamline a
 - **Patient Records Management:** Centralized storage and management of patient information.
 - **Staff Management:** Maintenance of records for doctors, nurses, and administrative personnel.
 - **Report Generation:** Creation and storage of reports related to patient appointments.
+- **Authentication System:** Secure login, registration, and user management.
+- **Automated UI Testing:** SpecFlow + Selenium tests for core user flows.
 
 ## Installation
 
@@ -44,11 +46,33 @@ To run the Ambulance Management System locally, follow these steps:
 - **Entity Framework Core:** Object-relational mapping (ORM) framework for .NET.
 - **SQL Server:** Database management system used for data storage.
 - **HTML, CSS, JavaScript:** Front-end technologies for the user interface.
+- SpecFlow: BDD testing framework for writing human-readable scenarios.
+- Selenium WebDriver: Automates browser-based UI testing.
+- xUnit: .NET testing framework.
 
 ## Project Structure
 
 - **`/src`:** Contains the source code for the Ambulance Management System.
+- **`/tests`:** – Contains the Selenium + SpecFlow automated UI tests.
 - **`/docs`:** Documentation related to the project.
+
+## Running automated tests
+
+You can run automated UI tests using Visual Studio or the CLI:
+
+Visual Studio
+Open the solution in Visual Studio.
+
+Build the solution.
+
+Open Test Explorer.
+
+Run all or selected tests under AmbulanceManagement.Tests.
+
+ ```bash
+  cd AmbulanceManagement.Tests
+   dotnet test
+ ```
 
 ## Contributing
 
