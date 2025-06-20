@@ -119,8 +119,9 @@ namespace AmbulanceManagement.UITests.StepDefinitions
             var row = _driver.FindElements(By.CssSelector("tbody tr"))
                              .FirstOrDefault(r => r.Text.Contains("Test User"));
 
-            Assert.NotNull(row); 
-
+            Assert.NotNull(row);
+            var menu = _driver.FindElement(By.CssSelector("#toggle_btn"));
+            menu.Click();
             var dropdownToggle = row.FindElement(By.CssSelector(".action-icon.dropdown-toggle"));
             dropdownToggle.Click();
 
