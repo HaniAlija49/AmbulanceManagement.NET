@@ -60,14 +60,12 @@ To run the Ambulance Management System locally, follow these steps:
 
 You can run automated UI tests using Visual Studio or the CLI:
 
-Visual Studio
-Open the solution in Visual Studio.
+**Visual Studio**
 
-Build the solution.
-
-Open Test Explorer.
-
-Run all or selected tests under AmbulanceManagement.Tests.
+- Open the solution in Visual Studio.
+- Build the solution.
+- Open Test Explorer.
+- Run all or selected tests under AmbulanceManagement.Tests.
 
  ```bash
   cd AmbulanceManagement.Tests
